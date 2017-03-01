@@ -1,0 +1,13 @@
+<?xml version = '1.0' encoding = 'ISO-8859-1'?>
+<!ELEMENT base_couverture ( caracteristiques , ensemble_regles )>
+<!ELEMENT caracteristiques ( base_donnees, support_minimal, confiance_minimale )>
+<!ELEMENT base_donnees (#PCDATA)>
+<!ELEMENT support_minimal (#PCDATA)>
+<!ELEMENT confiance_minimale (#PCDATA)>
+<!ELEMENT ensemble_regles ( nombre_regles, regle* )>
+<!ELEMENT nombre_regles (#PCDATA)>
+<!ELEMENT regle ( antecedent , consequence, support, confiance )>
+<!ELEMENT antecedent (#PCDATA)>
+<!ELEMENT consequence (#PCDATA)>
+<!ELEMENT support (#PCDATA)>
+<!ELEMENT confiance (#PCDATA)>
