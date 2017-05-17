@@ -17,36 +17,28 @@
  * **********************************************************************
  */
 /*
- *  Copyright LIPN
- *  contributor(s) : Marc Champesme (2006) marc.champesme@lipn.univ-paris13.fr
- *  
- *  This software is a computer program whose purpose is the Incremental construction of Alpha lattices.
- *  
- *  This software is governed by the CeCILL license under French law and
- *  abiding by the rules of distribution of free software.  You can  use, 
- *  modify and/ or redistribute the software under the terms of the CeCILL
- *  license as circulated by CEA, CNRS and INRIA at the following URL
- *  "http://www.cecill.info". 
- *  
- *  As a counterpart to the access to the source code and  rights to copy,
- *  modify and redistribute granted by the license, users are provided only
- *  with a limited warranty  and the software's author,  the holder of the
- *  economic rights,  and the successive licensors  have only  limited
- *  liability. 
- *  
- *  In this respect, the user's attention is drawn to the risks associated
- *  with loading,  using,  modifying and/or developing or reproducing the
- *  software by the user in light of its specific status of free software,
- *  that may mean  that it is complicated to manipulate,  and  that  also
- *  therefore means  that it is reserved for developers  and  experienced
- *  professionals having in-depth computer knowledge. Users are therefore
- *  encouraged to load and test the software's suitability as regards their
- *  requirements in conditions enabling the security of their systems and/or 
- *  data to be ensured and,  more generally, to use and operate it in the 
- *  same conditions as regards security. 
- *  
- *  The fact that you are presently reading this means that you have had
- *  knowledge of the CeCILL license and that you accept its terms.
+ * Copyright LIPN contributor(s) : Marc Champesme (2006)
+ * marc.champesme@lipn.univ-paris13.fr This software is a computer program whose
+ * purpose is the Incremental construction of Alpha lattices. This software is
+ * governed by the CeCILL license under French law and abiding by the rules of
+ * distribution of free software. You can use, modify and/ or redistribute the
+ * software under the terms of the CeCILL license as circulated by CEA, CNRS and
+ * INRIA at the following URL "http://www.cecill.info". As a counterpart to the
+ * access to the source code and rights to copy, modify and redistribute granted
+ * by the license, users are provided only with a limited warranty and the
+ * software's author, the holder of the economic rights, and the successive
+ * licensors have only limited liability. In this respect, the user's attention
+ * is drawn to the risks associated with loading, using, modifying and/or
+ * developing or reproducing the software by the user in light of its specific
+ * status of free software, that may mean that it is complicated to manipulate,
+ * and that also therefore means that it is reserved for developers and
+ * experienced professionals having in-depth computer knowledge. Users are
+ * therefore encouraged to load and test the software's suitability as regards
+ * their requirements in conditions enabling the security of their systems
+ * and/or data to be ensured and, more generally, to use and operate it in the
+ * same conditions as regards security. The fact that you are presently reading
+ * this means that you have had knowledge of the CeCILL license and that you
+ * accept its terms.
  */
 
 package lattice.alpha.iceberg.algorithm;
@@ -75,7 +67,6 @@ import lattice.util.structure.Node;
 import orderedset.ArrayHashSet;
 
 /**
- * 
  * @author zuojin (for original Galicia implementation of class
  *         lattice.iceberg.algorithm.BordatIceberg)
  * @author Marc Champesme
@@ -92,7 +83,8 @@ public class BordatLatticeBuilder extends LatticeAlgorithm {
 
     private ArrayHashSet<FormalAttribute> intentDomain;
 
-    public BordatLatticeBuilder(MatrixBinaryRelationBuilder relation, double minSupp,
+    public BordatLatticeBuilder(MatrixBinaryRelationBuilder relation,
+                                double minSupp,
                                 Map<FormalObject, Intent> objToIntentMap,
                                 BitSetExtent classObjectSet,
                                 Set<FormalAttribute> intentDomain) {
@@ -310,9 +302,12 @@ public class BordatLatticeBuilder extends LatticeAlgorithm {
      * @return a list of concept
      */
     /*
-     * @ @ requires concept != null; @ ensures \result != null; @ ensures
-     * (\forall int i; i >= 0 && i < \result.size(); @ \result.get(i) instanceof
-     * Concept); @
+     * @
+     * @ requires concept != null;
+     * @ ensures \result != null;
+     * @ ensures (\forall int i; i >= 0 && i < \result.size(); \result.get(i)
+     * instanceof Concept);
+     * @
      */
     public List<Concept> findLowerCover(Concept concept) {
         BitSetExtent refExtent = (BitSetExtent) concept.getExtent();
@@ -334,7 +329,7 @@ public class BordatLatticeBuilder extends LatticeAlgorithm {
             objExtent.fastAdd(firstObj);
 
             while (objIter.hasNext()) {
-                FormalObject nextObj = (FormalObject) objIter.next();
+                FormalObject nextObj = objIter.next();
                 BitSetIntent nextObjIntent = (BitSetIntent) objToIntentMap
                         .get(nextObj);
                 BitSetIntent newIntent = (BitSetIntent) nextObjIntent
@@ -348,8 +343,8 @@ public class BordatLatticeBuilder extends LatticeAlgorithm {
             if (objIntent.intersection(refIntentCopy).equals(refIntent)) {
                 // System.out.println("Found lower cover:" + objExtent + "@" +
                 // objIntent);
-                lowerCover.add(new BGConcept((Extent) objExtent.clone(),
-                                             (Intent) objIntent.clone()));
+                lowerCover.add(new BGConcept(objExtent.clone(), objIntent
+                        .clone()));
             }
 
             refIntentCopy.fastAddAll(objIntent);
@@ -377,6 +372,8 @@ public class BordatLatticeBuilder extends LatticeAlgorithm {
      * Search the first object of the specified iterator whose intent is not
      * included in the specified intent and return this object if it exists.
      * 
+     * @requires intent != null && objIter != null;
+     * @ensures !intent.containsAll(getIntentForObject(\result));
      * @param intent
      *            the intent to which compare the intents of the objects
      * @param objIter
@@ -384,13 +381,8 @@ public class BordatLatticeBuilder extends LatticeAlgorithm {
      * @return the first object of the specified iterator whose intent is not
      *         included in the specified intent if it exists ; null otherwise.
      */
-    /*
-     * @ @ requires intent != null && objIter != null; @ requires
-     * objIter.elementType <: \type(FormalObject); @ assignable
-     * objIter.objectState; @ ensures
-     * !intent.containsAll(getIntentForObject(\result)); @
-     */
-    protected FormalObject findFirstObj(Intent intent, Iterator<FormalObject> objIter) {
+    protected FormalObject findFirstObj(Intent intent,
+                                        Iterator<FormalObject> objIter) {
         FormalObject firstObj = null;
         // System.out.println("findFirstObj(" + intent + ")?");
 

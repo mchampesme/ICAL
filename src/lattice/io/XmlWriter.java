@@ -33,7 +33,6 @@ import lattice.util.concept.Intent;
 import lattice.util.concept.ScalingFormalAttribute;
 import lattice.util.exception.BadInputDataException;
 import lattice.util.relation.MatrixBinaryRelationBuilder;
-import lattice.util.relation.InterObjectBinaryRelation;
 import lattice.util.relation.RelationalContextFamily;
 import lattice.util.relation.ScalingBinaryRelation;
 import lattice.util.structure.CompleteConceptLattice;
@@ -52,7 +51,7 @@ import lattice.util.structure.LatticeGraph;
  * Copyright : Copyright (c) 2002
  * </p>
  * <p>
- * Société : Université de Montréal
+ * Sociï¿½tï¿½ : Universitï¿½ de Montrï¿½al
  * </p>
  * 
  * @author Alexandre Frantz et Pascal Camarda
@@ -132,63 +131,6 @@ public class XmlWriter extends AbstractWriter implements
 
     }
 
-    public void writeInterObjectBinaryRelation(
-                                               InterObjectBinaryRelation ioBinRel)
-                                                                                  throws IOException {
-        getStream().write(
-                          "<BIN name=\"" + ioBinRel.getName()
-                                  + "\" nbObj=\"" + ioBinRel.getObjectsNumber()
-                                  + "\" nbAtt=\""
-                                  + ioBinRel.getAttributesNumber()
-                                  + "\" type=\"InterObjectBinaryRelation\">\n");
-
-        // added by Amine June 23, 2004, 16:56
-        getStream().write("<LINKS>\n");
-        getStream().write("<LINK name=\"" + "OBJCTX" + "\">");
-        getStream().write(ioBinRel.getObjectsContextName());
-        getStream().write("</LINK>\n");
-        getStream().write("<LINK name=\"" + "ATTCTX" + "\">");
-        getStream().write(ioBinRel.getAttributesContextName());
-        getStream().write("</LINK>\n");
-        getStream().write("</LINKS>\n");
-        getStream().flush();
-        // end added by Amine
-
-        getStream().write("<OBJS>\n");
-        for (int i = 0; i < ioBinRel.getObjectsNumber(); i++) {
-            getStream().write("<OBJ id=\"" + i + "\">");
-            getStream().write(ioBinRel.getFormalObject(i).toString());
-            getStream().write("</OBJ>\n");
-        }
-        getStream().write("</OBJS>\n");
-        getStream().flush();
-
-        getStream().write("<ATTS>\n");
-        for (int i = 0; i < ioBinRel.getAttributesNumber(); i++) {
-            getStream().write("<ATT id=\"" + i + "\">");
-            getStream().write(ioBinRel.getFormalAttribute(i).toString());
-            getStream().write("</ATT>\n");
-        }
-        getStream().write("</ATTS>\n");
-        getStream().flush();
-
-        getStream().write("<RELS>\n");
-        for (int i = 0; i < ioBinRel.getObjectsNumber(); i++) {
-            for (int j = 0; j < ioBinRel.getAttributesNumber(); j++) {
-                if (!ioBinRel.getRelation(i, j).isFalse()) {
-                    getStream().write(
-                                      "<REL idObj=\"" + i + "\" idAtt=\"" + j
-                                              + "\">");
-                    getStream().write("</REL>\n");
-                }
-            }
-            getStream().flush();
-        }
-        getStream().write("</RELS>\n");
-        getStream().write("</BIN>\n");
-        getStream().flush();
-    }
-
     public void writeScalingBinaryRelation(ScalingBinaryRelation scBinRel)
                                                                           throws IOException {
         getStream().write(
@@ -244,7 +186,7 @@ public class XmlWriter extends AbstractWriter implements
                                                                    throws BadInputDataException,
                                                                    IOException {
 
-        // Recupération des Objets
+        // Recupï¿½ration des Objets
         int nextIdObj = 0;
         Hashtable lesObjs = new Hashtable();
         for (Iterator it = lattice.getTop().getContent().getExtent().iterator(); it
@@ -381,7 +323,7 @@ public class XmlWriter extends AbstractWriter implements
             getStream().write("</SUP_NOD>\n");
 
             if (nodeToWrite.getContent().getGenerator().size() != 0) {
-                // Stockage Générateurs
+                // Stockage Gï¿½nï¿½rateurs
                 getStream().write("<GENS>\n");
                 for (Iterator it = nodeToWrite.getContent().getGenerator()
                         .iterator(); it.hasNext();) {
@@ -439,10 +381,7 @@ public class XmlWriter extends AbstractWriter implements
                                                                       throws IOException {
         getStream().write("<FAM name=\"" + relCtx.getName() + "\">\n");
         for (int i = 0; i < relCtx.size(); i++) {
-            if (relCtx.get(i) instanceof InterObjectBinaryRelation)
-                writeInterObjectBinaryRelation((InterObjectBinaryRelation) relCtx
-                        .get(i));
-            else if (relCtx.get(i) instanceof ScalingBinaryRelation)
+            if (relCtx.get(i) instanceof ScalingBinaryRelation)
                 writeScalingBinaryRelation((ScalingBinaryRelation) relCtx
                         .get(i));
             else if (relCtx.get(i) instanceof MatrixBinaryRelationBuilder)

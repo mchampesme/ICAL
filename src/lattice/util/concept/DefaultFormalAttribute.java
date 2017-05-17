@@ -77,34 +77,5 @@ public class DefaultFormalAttribute implements FormalAttribute {
 		return toString().hashCode();
 	}
 	
-	// --- The Folowing MUST DISAPEAR do NOT USE !!! 
-	protected TreeSet extension; // représentation creuse de l'extension de l'attribut (par indice)
-	public void initExtension(Extent E,MatrixBinaryRelationBuilder bR){
-		extension = new TreeSet();
-		for(Iterator it=E.iterator(); it.hasNext(); ) 
-			extension.add(new Integer(bR.getObjects().indexOf(it.next())));
-	}
-
-	
-	public int calculSupport() {
-		return extension.size();
-	}
-	
-	public TreeSet getExtension() {
-		return extension;
-	}
-
-/**
-	* Créé un nouveau motif qui est l'intersection de this avec m
-*/
-	public TreeSet intersection(TreeSet m) {
-		TreeSet t = new TreeSet();
-		Integer i = null;
-		for(Iterator it = m.iterator(); it.hasNext() ;) {
-			i = (Integer) it.next();
-			if(extension.contains(i)) t.add(i);
-		}
-		return t;
-	}
 
 }

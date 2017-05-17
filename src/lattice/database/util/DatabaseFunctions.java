@@ -48,7 +48,6 @@ import lattice.database.task.DatabaseWritingTask;
 import lattice.gui.RelationalContextEditor;
 import lattice.util.relation.RelationBuilder;
 import lattice.util.relation.MatrixBinaryRelationBuilder;
-import lattice.util.relation.InterObjectBinaryRelation;
 import lattice.util.relation.RelationalContextFamily;
 import lattice.util.relation.ScalingBinaryRelation;
 import rule.util.RulesBasis;
@@ -161,29 +160,9 @@ public class DatabaseFunctions {
 	 * The type can be Binary, InterObjectBinary, MultiValued, ScalingBinary, or Unrecognized
 	 */
 	public static String getRelationType(RelationBuilder absRel) {
-		if (absRel instanceof InterObjectBinaryRelation) return INTER_OBJECT_TYPE;
 		if (absRel instanceof ScalingBinaryRelation) return SCALING_BINARY_TYPE;
 		if (absRel instanceof MatrixBinaryRelationBuilder) return BINARY_TYPE;
 		return UNRECOGNIZED_TYPE;
-	}
-	
-	
-	/**
-	 * A method to get the relations related to the relation in parameter (does not use the database)
-	 */
-	public static Vector getRelatedRelations(RelationalContextFamily relCtxFam, RelationBuilder absRel) {
-
-		Vector result = new Vector();
-		if (getRelationType(absRel).equals(INTER_OBJECT_TYPE)) {
-			String obj = ((InterObjectBinaryRelation)absRel).getObjectsContextName();
-			String att = ((InterObjectBinaryRelation)absRel).getAttributesContextName();
-			result.addElement(relCtxFam.getForName(obj));
-			if (!obj.equals(att)) {
-				result.addElement(relCtxFam.getForName(att));
-			}
-		}
-		
-		return result;
 	}
 	
 	

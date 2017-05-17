@@ -32,7 +32,7 @@ package lattice.gui.controller;
  * <p>Titre : Petko&al 2</p>
  * <p>Description : PetkoInc (plate forme)</p>
  * <p>Copyright : Copyright (c) 2003</p>
- * <p>Société : UQAM - UdM</p>
+ * <p>Sociï¿½tï¿½ : UQAM - UdM</p>
  * @author frambourg_c
  * @version 1.0
  */
@@ -62,7 +62,6 @@ import lattice.util.concept.SetIntent;
 import lattice.util.exception.BadInputDataException;
 import lattice.util.relation.RelationBuilder;
 import lattice.util.relation.MatrixBinaryRelationBuilder;
-import lattice.util.relation.InterObjectBinaryRelation;
 import lattice.util.relation.ScalingBinaryRelation;
 import lattice.util.structure.CompleteConceptLattice;
 /**
@@ -312,10 +311,6 @@ public class LatticeUpdateController
       return;
     }
     if (absRel instanceof ScalingBinaryRelation) {
-      menuTrellit.setEnabled(false);
-      return;
-    }
-    if (absRel instanceof InterObjectBinaryRelation) {
       menuTrellit.setEnabled(false);
       return;
     }

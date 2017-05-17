@@ -196,12 +196,6 @@ public class SaveContextsDialog extends JFrame {	private javax.swing.JPanel jCon
 							if (!relations.contains(absRel)) {
 								relations.addElement(absRel);
 							}
-							Vector related = DatabaseFunctions.getRelatedRelations(relCtxFam, absRel);
-							for (int j=0; j<related.size(); j++) {
-								if (!relations.contains(related.get(j))) {
-									relations.addElement((RelationBuilder)related.get(j));
-								}
-							}
 						}
 					}
 					String dbName = getDbNameTextField().getText();

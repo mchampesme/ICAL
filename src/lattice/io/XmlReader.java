@@ -39,14 +39,12 @@ import lattice.util.concept.FormalAttribute;
 import lattice.util.concept.FormalAttributeValue;
 import lattice.util.concept.FormalObject;
 import lattice.util.concept.Intent;
-import lattice.util.concept.InterObjectBinaryRelationAttribute;
 import lattice.util.concept.ScalingFormalAttribute;
 import lattice.util.concept.ScalingFormalObject;
 import lattice.util.concept.SetExtent;
 import lattice.util.concept.SetIntent;
 import lattice.util.exception.BadInputDataException;
 import lattice.util.relation.MatrixBinaryRelationBuilder;
-import lattice.util.relation.InterObjectBinaryRelation;
 import lattice.util.relation.RelationalContextFamily;
 import lattice.util.relation.ScalingBinaryRelation;
 import lattice.util.structure.CompleteConceptLattice;
@@ -72,7 +70,7 @@ import org.xml.sax.InputSource;
  * Copyright : Copyright (c) 2002
  * </p>
  * <p>
- * Société : Université de Montréal
+ * Sociï¿½tï¿½ : Universitï¿½ de Montrï¿½al
  * </p>
  * 
  * @author Alexandre Frantz et Pascal Camarda
@@ -171,82 +169,6 @@ public class XmlReader extends AbstractReader implements
      * 
      * @return
      */
-    public InterObjectBinaryRelation readInterObjectBinaryRelation()
-                                                                    throws BadInputDataException,
-                                                                    IOException {
-        FormalObject fo = null;
-        FormalAttribute fa = null;
-        if (currentTag != null
-            && currentTag.getTagName().equals("BIN")
-            && Integer.parseInt(currentTag.getAttribute("nbObj")) > 0
-            && Integer.parseInt(currentTag.getAttribute("nbAtt")) > 0
-            && currentTag.getAttribute("type")
-                    .equals("InterObjectBinaryRelation")) {
-            InterObjectBinaryRelation binRel = new InterObjectBinaryRelation(
-                                                                             Integer
-                                                                                     .parseInt(currentTag
-                                                                                             .getAttribute("nbObj")),
-                                                                             Integer
-                                                                                     .parseInt(currentTag
-                                                                                             .getAttribute("nbAtt")));
-            binRel.setName(currentTag.getAttribute("name"));
-
-            // Added by Amine June 23, 2004, 16:56
-            NodeList nl = ((Element) currentTag.getElementsByTagName("LINKS")
-                    .item(0)).getElementsByTagName("LINK");
-            Element ctx = (Element) nl.item(0);
-            String objectsCtx = new String(((Text) ctx.getChildNodes().item(0))
-                    .getNodeValue());
-            ctx = (Element) nl.item(1);
-            String attributesCtx = new String(((Text) ctx.getChildNodes()
-                    .item(0)).getNodeValue());
-            binRel.setObjectsContextName(objectsCtx);
-            binRel.setAttributesContextName(attributesCtx);
-            // end added by Amine
-
-            nl = ((Element) currentTag.getElementsByTagName("OBJS").item(0))
-                    .getElementsByTagName("OBJ");
-            for (int i = 0; i < nl.getLength(); i++) {
-                Element obj = (Element) nl.item(i);
-                fo = new DefaultFormalObject(((Text) obj.getChildNodes()
-                        .item(0)).getNodeValue());
-                binRel.replaceObject(Integer.parseInt(obj.getAttribute("id")),
-                                     fo);
-            }
-            nl = ((Element) currentTag.getElementsByTagName("ATTS").item(0))
-                    .getElementsByTagName("ATT");
-            for (int i = 0; i < nl.getLength(); i++) {
-                Element att = (Element) nl.item(i);
-                fa = new InterObjectBinaryRelationAttribute(
-                                                            new DefaultFormalObject(
-                                                                                    ((Text) att
-                                                                                            .getChildNodes()
-                                                                                            .item(
-                                                                                                  0))
-                                                                                            .getNodeValue()));
-                binRel.replaceAttribute(Integer
-                        .parseInt(att.getAttribute("id")), fa);
-            }
-            nl = ((Element) currentTag.getElementsByTagName("RELS").item(0))
-                    .getElementsByTagName("REL");
-            for (int i = 0; i < nl.getLength(); i++) {
-                Element rel = (Element) nl.item(i);
-                binRel.setRelation(Integer.parseInt(rel.getAttribute("idObj")),
-                                   Integer.parseInt(rel.getAttribute("idAtt")),
-                                   true);
-            }
-            return binRel;
-        } else {
-            throw new BadInputDataException(
-                                            "Reading XML MatrixBinaryRelationBuilder wrong format!");
-        }
-    }
-
-    /**
-     * Futur Implementation !
-     * 
-     * @return
-     */
     public ScalingBinaryRelation readScalingBinaryRelation()
                                                             throws BadInputDataException,
                                                             IOException {
@@ -328,12 +250,7 @@ public class XmlReader extends AbstractReader implements
                                        .equals("ScallingBinaryRelation")) {
                         relCtx.add(readScalingBinaryRelation());
                         currentTag = (Element) currentTag.getParentNode();
-                    } else if (currentTag.getTagName().equals("BIN")
-                               && currentTag.getAttribute("type")
-                                       .equals("InterObjectBinaryRelation")) {
-                        relCtx.add(readInterObjectBinaryRelation());
-                        currentTag = (Element) currentTag.getParentNode();
-                    }
+                    } 
                 }
             }
             return relCtx;
@@ -499,7 +416,7 @@ public class XmlReader extends AbstractReader implements
     public void run() {
 
         try {
-            // -- créer un document
+            // -- crï¿½er un document
             DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance()
                     .newDocumentBuilder();
             InputSource is = new InputSource(getStream());

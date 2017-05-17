@@ -41,7 +41,6 @@ import lattice.gui.graph.LatticeGraphFrame;
 import lattice.iceberg.algorithm.BordatIceberg;
 import lattice.util.relation.RelationBuilder;
 import lattice.util.relation.MatrixBinaryRelationBuilder;
-import lattice.util.relation.InterObjectBinaryRelation;
 import lattice.util.relation.RelationalContextFamily;
 import lattice.util.structure.CompleteConceptLattice;
 import lattice.util.structure.ConceptNodeImp;
@@ -137,40 +136,7 @@ public class LatticeFamily {
 			return null;
 		}
 
-	public InterObjectBinaryRelation getWorkingOVA(int i) {
-		return (InterObjectBinaryRelation) workingOVASet.elementAt(i); 
-	}
-		/**
-	 	* @param ovaName
-	 	* @return relational attribute context
-	 	*/
-		public InterObjectBinaryRelation getWorkingOVA(String ovaName) {
-			for(int i=0;i< workingOVASet.size();i++){
-				InterObjectBinaryRelation current = (InterObjectBinaryRelation) workingOVASet.elementAt(i);
-				if(current.getName().compareTo(ovaName)==0) 
-				return current;
-			}			
-			return null;
-		}		
-		
-		/**
-		 * @param ctx
-		 * @return the set of object-valued attributes in the context ctx 
-		 * (as InterObjectBinaryRelation array)
-		 */
-		public Vector getOVASet(RelationBuilder ctx) {
-			Vector result=new Vector(0);
-			for(int i=0;i<workingOVASet.size();i++){
-				InterObjectBinaryRelation rel=(InterObjectBinaryRelation) workingOVASet.elementAt(i);
-				// check object context of given OVA context
-				String currentCtx = rel.getObjectsContextName(); 
-				if(currentCtx.compareTo(ctx.getName())==0)	
-				result.add(rel);
-			}
-			return result;
-		}
-
-		/**
+	/**
 		 * @param relation
 		 */
 		public void addContextToRCF(MatrixBinaryRelationBuilder ctx) {
@@ -205,8 +171,6 @@ public class LatticeFamily {
 					//LatticeGraphFrame f0 = new LatticeGraphFrame("Lattice of "+binCtx.getRelationName()+" before processing labels",binCtx.getLattice().getTopConceptNode());
 					//f0.show();
 					// reduce relational labeling if asked
-					if(MultiFCASettingsView.getSelectedRelationalLabeling()==MultiFCASettingsView.getReducedRelationalLabeling())
-						RelationalLattice.removeRedundantLinks(fullRCF,binCtx);
 					//LatticeGraphFrame f1 = new LatticeGraphFrame("Lattice of "+binCtx.getRelationName()+" lattice after removing redundant links",binCtx.getLattice().getTopConceptNode());
 					//f1.show();
 					// reduce fundamental labeling is asked

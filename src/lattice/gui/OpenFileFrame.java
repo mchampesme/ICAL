@@ -40,7 +40,6 @@ import lattice.io.AbstractReader;
 import lattice.io.AbstractWriter;
 import lattice.io.IbmReader;
 import lattice.io.IbmWriter;
-import lattice.io.KrssWriter;
 import lattice.io.RcfReader;
 import lattice.io.RcfWriter;
 import lattice.io.SlfReader;
@@ -157,7 +156,7 @@ public abstract class OpenFileFrame extends ConsoleFrame {
             if (fileChooser.getFileFilter() == fileChooser
                     .getChoosableFileFilters()[0]) {
                 // Si le filtre de selection est * alors on cherche s'il existe
-                // un filtre qui match le fichié choisit
+                // un filtre qui match le fichiï¿½ choisit
                 for (int i = 1; i < fileChooser.getChoosableFileFilters().length
                                 && fich == null; i++) {
                     if (fileChooser.getChoosableFileFilters()[i]
@@ -169,13 +168,13 @@ public abstract class OpenFileFrame extends ConsoleFrame {
                     }
                 }
                 if (fich == null)
-                    // Aucun filtre n'a pu matché le fichié sélectionné
+                    // Aucun filtre n'a pu matchï¿½ le fichiï¿½ sï¿½lectionnï¿½
                     JOptionPane
                             .showMessageDialog(this,
                                                "The selected file has no known file extention!");
 
             } else {
-                // Un filtre est séléctionné et il est different de *
+                // Un filtre est sï¿½lï¿½ctionnï¿½ et il est different de *
                 lastDirectory = fileChooser.getCurrentDirectory();
                 if (!fileChooser
                         .getSelectedFile()
@@ -183,7 +182,7 @@ public abstract class OpenFileFrame extends ConsoleFrame {
                         .endsWith(
                                   ((AbstractFilter) fileChooser.getFileFilter())
                                           .getFileExtension()))
-                    // Si le fichier choisit ne possède pas la bonne extension,
+                    // Si le fichier choisit ne possï¿½de pas la bonne extension,
                     // on lui met automatiquement
                     // Ceci ne sert que lorsque l'on choisit un fichier de
                     // sauvegarde
@@ -201,7 +200,7 @@ public abstract class OpenFileFrame extends ConsoleFrame {
 
     protected File getFileFor(int chooserAction, int dataType) {
         /*
-         * le removeChoosableFileFilter est commenté car sous MacOS cela plante !
+         * le removeChoosableFileFilter est commentï¿½ car sous MacOS cela plante !
          */
         JFileChooser fileChooser = getFileChooser(chooserAction);
         switch (dataType) {
@@ -212,7 +211,7 @@ public abstract class OpenFileFrame extends ConsoleFrame {
                 fileChooser.addChoosableFileFilter(ibmFilter);
                 fileChooser.addChoosableFileFilter(xmlBinFilter);
                 // fileChooser.removeChoosableFileFilter(fileChooser.getChoosableFileFilters()[0]);
-                // pour que soit sélectionné le filefilter générique par défaut
+                // pour que soit sï¿½lectionnï¿½ le filefilter gï¿½nï¿½rique par dï¿½faut
                 fileChooser
                         .setFileFilter(fileChooser.getChoosableFileFilters()[0]);
                 break;
@@ -223,7 +222,7 @@ public abstract class OpenFileFrame extends ConsoleFrame {
                 fileChooser.addChoosableFileFilter(mvcFilter);
                 fileChooser.addChoosableFileFilter(xmlMvcFilter);
                 // fileChooser.removeChoosableFileFilter(fileChooser.getChoosableFileFilters()[0]);
-                // pour que soit sélectionné le filefilter générique par défaut
+                // pour que soit sï¿½lectionnï¿½ le filefilter gï¿½nï¿½rique par dï¿½faut
                 fileChooser
                         .setFileFilter(fileChooser.getChoosableFileFilters()[0]);
                 break;
@@ -234,7 +233,7 @@ public abstract class OpenFileFrame extends ConsoleFrame {
                 fileChooser.addChoosableFileFilter(rcfFilter);
                 fileChooser.addChoosableFileFilter(xmlRcfFilter);
                 // fileChooser.removeChoosableFileFilter(fileChooser.getChoosableFileFilters()[0]);
-                // pour que soit sélectionné le filefilter générique par défaut
+                // pour que soit sï¿½lectionnï¿½ le filefilter gï¿½nï¿½rique par dï¿½faut
                 fileChooser
                         .setFileFilter(fileChooser.getChoosableFileFilters()[0]);
                 break;
@@ -245,7 +244,7 @@ public abstract class OpenFileFrame extends ConsoleFrame {
                 fileChooser.addChoosableFileFilter(xmlLatFilter);
                 // fileChooser.addChoosableFileFilter(pdfFilter);
                 // fileChooser.removeChoosableFileFilter(fileChooser.getChoosableFileFilters()[0]);
-                // pour que soit sélectionné le filefilter générique par défaut
+                // pour que soit sï¿½lectionnï¿½ le filefilter gï¿½nï¿½rique par dï¿½faut
                 fileChooser
                         .setFileFilter(fileChooser.getChoosableFileFilters()[0]);
                 break;
@@ -288,8 +287,6 @@ public abstract class OpenFileFrame extends ConsoleFrame {
         if (xmlBinFilter.accept(file) || xmlMvcFilter.accept(file)
             || xmlRcfFilter.accept(file) || xmlLatFilter.accept(file))
             return new XmlWriter(new FileWriter(file));
-        if (krssFilter.accept(file))
-            return new KrssWriter(new FileWriter(file));
         return null;
     }
 
@@ -320,8 +317,8 @@ public abstract class OpenFileFrame extends ConsoleFrame {
             addMessage("Writing Aborted...\n");
         }
         writer.setData(data);
-        // Etant donnée que le XmlReader peux servir a plusieur actions, il faut
-        // lui précisé ce que l'on attend
+        // Etant donnï¿½e que le XmlReader peux servir a plusieur actions, il faut
+        // lui prï¿½cisï¿½ ce que l'on attend
         if (writer instanceof XmlWriter)
             ((XmlWriter) writer).setTypeOfWriting(writingType);
         writeTask.setDataWriter(writer);

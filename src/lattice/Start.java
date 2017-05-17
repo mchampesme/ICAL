@@ -35,7 +35,6 @@ import lattice.gui.MainFrame;
  * <p>Titre : Lattice</p>
  * <p>Description : Initialise le programme</p>
  * <p>Copyright : Copyright (c) 2002</p>
- * <p>Société : Université de Montréal</p>
  * @author Alexandre Frantz et Pascal Camarda
  * @version 1.0
  */
@@ -49,7 +48,7 @@ public class Start
   {
     //new MainController();
     MainFrame maF=new MainFrame();
-    maF.show();
+    maF.setVisible(true);
   }
 
   /**

@@ -1,34 +1,26 @@
 /*
- *  Copyright LIPN
- *  contributor(s) : Marc Champesme (2006) marc.champesme@lipn.univ-paris13.fr
- *  
- *  This software is a computer program whose purpose is the Incremental construction of Alpha lattices.
- *  
- *  This software is governed by the CeCILL license under French law and
- *  abiding by the rules of distribution of free software.  You can  use, 
- *  modify and/ or redistribute the software under the terms of the CeCILL
- *  license as circulated by CEA, CNRS and INRIA at the following URL
- *  "http://www.cecill.info". 
- *  
- *  As a counterpart to the access to the source code and  rights to copy,
- *  modify and redistribute granted by the license, users are provided only
- *  with a limited warranty  and the software's author,  the holder of the
- *  economic rights,  and the successive licensors  have only  limited
- *  liability. 
- *  
- *  In this respect, the user's attention is drawn to the risks associated
- *  with loading,  using,  modifying and/or developing or reproducing the
- *  software by the user in light of its specific status of free software,
- *  that may mean  that it is complicated to manipulate,  and  that  also
- *  therefore means  that it is reserved for developers  and  experienced
- *  professionals having in-depth computer knowledge. Users are therefore
- *  encouraged to load and test the software's suitability as regards their
- *  requirements in conditions enabling the security of their systems and/or 
- *  data to be ensured and,  more generally, to use and operate it in the 
- *  same conditions as regards security. 
- *  
- *  The fact that you are presently reading this means that you have had
- *  knowledge of the CeCILL license and that you accept its terms.
+ * Copyright LIPN contributor(s) : Marc Champesme (2006)
+ * marc.champesme@lipn.univ-paris13.fr This software is a computer program whose
+ * purpose is the Incremental construction of Alpha lattices. This software is
+ * governed by the CeCILL license under French law and abiding by the rules of
+ * distribution of free software. You can use, modify and/ or redistribute the
+ * software under the terms of the CeCILL license as circulated by CEA, CNRS and
+ * INRIA at the following URL "http://www.cecill.info". As a counterpart to the
+ * access to the source code and rights to copy, modify and redistribute granted
+ * by the license, users are provided only with a limited warranty and the
+ * software's author, the holder of the economic rights, and the successive
+ * licensors have only limited liability. In this respect, the user's attention
+ * is drawn to the risks associated with loading, using, modifying and/or
+ * developing or reproducing the software by the user in light of its specific
+ * status of free software, that may mean that it is complicated to manipulate,
+ * and that also therefore means that it is reserved for developers and
+ * experienced professionals having in-depth computer knowledge. Users are
+ * therefore encouraged to load and test the software's suitability as regards
+ * their requirements in conditions enabling the security of their systems
+ * and/or data to be ensured and, more generally, to use and operate it in the
+ * same conditions as regards security. The fact that you are presently reading
+ * this means that you have had knowledge of the CeCILL license and that you
+ * accept its terms.
  */
 package lattice.alpha.gui.controller;
 
@@ -81,7 +73,6 @@ import lattice.util.concept.FormalObject;
 import lattice.util.concept.Intent;
 import lattice.util.relation.RelationBuilder;
 import lattice.util.relation.MatrixBinaryRelationBuilder;
-import lattice.util.relation.InterObjectBinaryRelation;
 import lattice.util.relation.RelationalContextFamily;
 import lattice.util.relation.ScalingBinaryRelation;
 import lattice.util.structure.CompleteConceptLattice;
@@ -93,72 +84,98 @@ import rule.gui.TableVisualization;
 import rule.util.RulesBasis;
 
 /**
- * cette class permet de controler la fusion des treillis fr�quents, elle permet
+ * cette class permet de controler la fusion des treillis fréquents, elle permet
  * l'interaction avec l'utilisateur
  * 
  * @author eljaouhari
  * @author Marc Champesme
  */
-public class AlphaController extends AbstractController implements PropertyChangeListener {
+public class AlphaController extends AbstractController implements
+        PropertyChangeListener {
 
     public final static String SHOW_ALPHA_WINDOW_CMD = "Show Alpha Window";
+
     public final static String SHOW_ALPHA_WINDOW_CMD_MSG = "Show Alpha Window";
-    
+
     public final static String BROWSE_LATTICE_CMD = "Browse Lattice";
+
     public final static String SHOW_LATTICE_CMD = "Show Lattice";
+
     public final static String BUILD_LATTICE_CMD = "Build Lattices";
+
     public final static String GENERATOR_CMD = "Compute Generators";
+
     public final static String MERGE_CMD = "Merge Lattices";
+
     public final static String GENERIC_BASIS_CMD = "Compute Generic Basis";
+
     public final static String INFORMATIVE_BASIS_CMD = "Compute Informative Basis";
-    
+
     public final static String BUILD_LATTICE_CMD_MSG = "Build Lattices";
+
     public final static String GENERATOR_CMD_MSG = "Generators";
+
     public final static String GENERIC_BASIS_CMD_MSG = "Generic Basis";
+
     public final static String INFORMATIVE_BASIS_CMD_MSG = "Informative Basis";
+
     public final static String MERGE_CMD_MSG = "Merge";
+
     public final static String BROWSE_LATTICE_CMD_MSG = "Browse Lattice";
+
     public final static String SHOW_LATTICE_CMD_MSG = "Show Lattice";
-    
+
     private JFrame alphaWindow;
+
     private JButton generatorButton;
+
     private JButton genericBasisButton;
+
     private JButton informativeBasisButton;
+
     private JButton mergeButton;
+
     private JButton buildLatticeButton;
+
     private JButton browseLatticeButton;
+
     private JButton showLatticeButton;
 
     private LatticeTableModel latticeTable;
-    
+
     private LatticeSelectionPanel latticeSelectionPanel;
-    
+
     private RelationTableModel relationTable;
-    
+
     private RelationSelectionPanel relationSelectionPanel;
 
     // Numerical parameters:
     private double alphaValue;
+
     private PercentTextFieldPanel alphaTextField;
-    
+
     private double minSupport;
+
     private PercentTextFieldPanel minSupportTextField;
-    
+
     private double minConfidence;
+
     private PercentTextFieldPanel minConfidenceTextField;
-    
-    
+
     private JMenu alphaMenu;
-    
+
     private JMenuItem showAlphaWindow;
 
     private JMenu paramsMenu;
+
     private JMenu buildMenu;
+
     private JMenu viewMenu;
 
     private JMenuItem alphaValueMenuItem;
 
     private JMenuItem minSupportMenuItem;
+
     private JMenuItem minConfidenceMenuItem;
 
     private JCheckBoxMenuItem showLatticeParamsMenuItem;
@@ -166,12 +183,17 @@ public class AlphaController extends AbstractController implements PropertyChang
     private JCheckBoxMenuItem showLatticeResultMenuItem;
 
     private JMenuItem viewLatticeMenuItem;
+
     private JMenuItem viewExactBRMenuItem;
+
     private JMenuItem viewApproxBRMenuItem;
 
     private JMenuItem latticeBuilderMenuItem;
+
     private JMenuItem generatorMenuItem;
+
     private JMenuItem exactBRMenuItem;
+
     private JMenuItem approxBRMenuItem;
 
     private LatticeAlgorithmTask theTask;
@@ -189,20 +211,20 @@ public class AlphaController extends AbstractController implements PropertyChang
     private List<RelationBuilder> relationList;
 
     private List<Extent> classList;
+
     private Map<RelationBuilder, BitSetExtent> relationToClassMap;
-    
+
     private Map<FormalObject, Intent> objToIntentMap;
-    
+
     private ImmutIndexedSet<FormalAttribute> globalIntentDomain;
-    
+
     private ImmutIndexedSet<FormalObject> globalExtentDomain;
 
     private List<CompleteConceptLattice> latticeList;
-    
-    private List<RulesBasis> exactBRList;
-    
-    private List<RulesBasis> approxBRList;
 
+    private List<RulesBasis> exactBRList;
+
+    private List<RulesBasis> approxBRList;
 
     /**
      * cre�tion du controleur
@@ -220,7 +242,8 @@ public class AlphaController extends AbstractController implements PropertyChang
         resultList = new ArrayList<CompleteConceptLattice>(nbRelations);
         relationList = new ArrayList<RelationBuilder>(nbRelations);
         classList = new ArrayList<Extent>(nbRelations);
-        relationToClassMap = new HashMap<RelationBuilder, BitSetExtent>(nbRelations * 4 / 3);
+        relationToClassMap = new HashMap<RelationBuilder, BitSetExtent>(
+                                                                        nbRelations * 4 / 3);
         latticeList = new ArrayList<CompleteConceptLattice>(nbRelations);
         latticeTable = new LatticeTableModel();
         relationTable = new RelationTableModel();
@@ -233,19 +256,23 @@ public class AlphaController extends AbstractController implements PropertyChang
     }
 
     private void initAlphaWindow() {
-        //Make sure we have nice window decorations.
+        // Make sure we have nice window decorations.
         JFrame.setDefaultLookAndFeelDecorated(true);
 
-        //Create and set up the window.
+        // Create and set up the window.
         alphaWindow = new JFrame("Alpha Lattices");
         JPanel contentPane = new JPanel(new BorderLayout(10, 10));
 
         JPanel textFieldPane = new JPanel();
         alphaTextField = new PercentTextFieldPanel("Alpha Value:", alphaValue);
         alphaTextField.addValueChangeListener(this);
-        minSupportTextField = new PercentTextFieldPanel("Minimal Support for rules:", minSupport);
+        minSupportTextField = new PercentTextFieldPanel(
+                                                        "Minimal Support for rules:",
+                                                        minSupport);
         minSupportTextField.addValueChangeListener(this);
-        minConfidenceTextField = new PercentTextFieldPanel("Minimal Confidence for rules:", minConfidence);
+        minConfidenceTextField = new PercentTextFieldPanel(
+                                                           "Minimal Confidence for rules:",
+                                                           minConfidence);
         minConfidenceTextField.addValueChangeListener(this);
         textFieldPane.add(alphaTextField);
         textFieldPane.add(minSupportTextField);
@@ -254,25 +281,29 @@ public class AlphaController extends AbstractController implements PropertyChang
 
         JPanel relationPanel = new JPanel(new BorderLayout(10, 10));
         relationPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 5));
-        relationSelectionPanel = new RelationSelectionPanel("Select one or more relations:", relationTable);
+        relationSelectionPanel = new RelationSelectionPanel(
+                                                            "Select one or more relations:",
+                                                            relationTable);
         relationPanel.add(relationSelectionPanel, BorderLayout.PAGE_START);
         buildLatticeButton = new JButton(BUILD_LATTICE_CMD_MSG);
         buildLatticeButton.setActionCommand(BUILD_LATTICE_CMD);
-        relationPanel.add(buildLatticeButton, BorderLayout.PAGE_END);        
-        //contentPane.add(relationSelectionPanel,BorderLayout.LINE_START);
+        relationPanel.add(buildLatticeButton, BorderLayout.PAGE_END);
+        // contentPane.add(relationSelectionPanel,BorderLayout.LINE_START);
         contentPane.add(relationPanel, BorderLayout.LINE_START);
-         
 
         JPanel latticePanel = new JPanel(new BorderLayout(10, 10));
         latticePanel.setBorder(BorderFactory.createEmptyBorder(20, 5, 20, 20));
-        latticeSelectionPanel = new LatticeSelectionPanel("Select one or more lattices:", latticeTable);
-        //contentPane.add(latticeSelectionPanel, BorderLayout.CENTER);
+        latticeSelectionPanel = new LatticeSelectionPanel(
+                                                          "Select one or more lattices:",
+                                                          latticeTable);
+        // contentPane.add(latticeSelectionPanel, BorderLayout.CENTER);
         latticePanel.add(latticeSelectionPanel, BorderLayout.PAGE_START);
 
         // Set the south panel: the buttons
         JPanel buttonsPanel = new JPanel();
-        //southPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
+        // southPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20,
+        // 20));
+
         browseLatticeButton = new JButton(BROWSE_LATTICE_CMD_MSG);
         buttonsPanel.add(browseLatticeButton);
         browseLatticeButton.setActionCommand(BROWSE_LATTICE_CMD);
@@ -293,7 +324,7 @@ public class AlphaController extends AbstractController implements PropertyChang
         informativeBasisButton.setActionCommand(INFORMATIVE_BASIS_CMD);
         latticePanel.add(buttonsPanel, BorderLayout.PAGE_END);
         contentPane.add(latticePanel, BorderLayout.LINE_END);
-        
+
         generatorButton.addActionListener(this);
         genericBasisButton.addActionListener(this);
         informativeBasisButton.addActionListener(this);
@@ -301,15 +332,16 @@ public class AlphaController extends AbstractController implements PropertyChang
         buildLatticeButton.addActionListener(this);
         browseLatticeButton.addActionListener(this);
         showLatticeButton.addActionListener(this);
-        
-        contentPane.setOpaque(true); //content panes must be opaque
+
+        contentPane.setOpaque(true); // content panes must be opaque
         alphaWindow.setContentPane(contentPane);
 
-        //Display the window.
+        // Display the window.
         alphaWindow.pack();
         alphaWindow.setVisible(true);
 
     }
+
     public void initMenu() {
 
         alphaMenu = new JMenu("Alpha");
@@ -317,7 +349,7 @@ public class AlphaController extends AbstractController implements PropertyChang
         showAlphaWindow.setActionCommand(SHOW_ALPHA_WINDOW_CMD);
         showAlphaWindow.addActionListener(this);
         alphaMenu.add(showAlphaWindow);
-        
+
         paramsMenu = new JMenu("Parameters");
         alphaMenu.add(paramsMenu);
         buildMenu = new JMenu("Algorithms");
@@ -369,11 +401,11 @@ public class AlphaController extends AbstractController implements PropertyChang
         generatorMenuItem = new JMenuItem("Compute Generators...");
         generatorMenuItem.addActionListener(this);
         buildMenu.add(generatorMenuItem);
-        
+
         exactBRMenuItem = new JMenuItem("Build Generic Rule Basis...");
         exactBRMenuItem.addActionListener(this);
         buildMenu.add(exactBRMenuItem);
-        
+
         approxBRMenuItem = new JMenuItem("Build Informative Rule Basis...");
         approxBRMenuItem.addActionListener(this);
         buildMenu.add(approxBRMenuItem);
@@ -385,35 +417,41 @@ public class AlphaController extends AbstractController implements PropertyChang
     }
 
     /**
-     * Open a dialog to allow the user to enter a double value
-     * in the specified range.
+     * Open a dialog to allow the user to enter a double value in the specified
+     * range.
      * 
-     * @param valueDescription A text description of the value to enter
-     * @param minValue The minimal value allowed
-     * @param maxValue The maxiaml value allowed
-     * @param previousValue The previous value of the parameter for which the user 
-     * has to give a value
-     *
-     * @return The value entered by the user if this value is valid (i.e. a double in the specified range) ;
-     * else the previous value.
+     * @param valueDescription
+     *            A text description of the value to enter
+     * @param minValue
+     *            The minimal value allowed
+     * @param maxValue
+     *            The maxiaml value allowed
+     * @param previousValue
+     *            The previous value of the parameter for which the user has to
+     *            give a value
+     * @return The value entered by the user if this value is valid (i.e. a
+     *         double in the specified range) ; else the previous value.
      */
-    /*@
-      @ requires valueDescription != null;
-      @ requires minValue <= previousValue && previousValue <= maxValue;
-      @ ensures minValue <= \result && \result <= maxValue;
-      @ pure
-      @*/
-    public double askDoubleInRange(String paramDescription, double minValue, double maxValue, double previousValue) {
+    /*
+     * @
+     * @ requires valueDescription != null;
+     * @ requires minValue <= previousValue && previousValue <= maxValue;
+     * @ ensures minValue <= \result && \result <= maxValue;
+     * @ pure
+     * @
+     */
+    public double askDoubleInRange(String paramDescription, double minValue,
+                                   double maxValue, double previousValue) {
         Component parentComponent = getRelationalContextEditor();
         double retValue = previousValue;
         boolean badValue;
         String numString = null;
         do {
             badValue = false;
-            numString = JOptionPane
-                    .showInputDialog(parentComponent,
-                                     "Give a value for " + paramDescription, 
-                                     String.valueOf(retValue));
+            numString = JOptionPane.showInputDialog(parentComponent,
+                                                    "Give a value for "
+                                                            + paramDescription,
+                                                    String.valueOf(retValue));
             if (numString != null) {
                 if (!numString.equals("")) {
                     try {
@@ -422,22 +460,23 @@ public class AlphaController extends AbstractController implements PropertyChang
                         badValue = true;
                     }
                 }
-                if (badValue || numString.equals("") || retValue < minValue || retValue > maxValue) {
+                if (badValue || numString.equals("") || retValue < minValue
+                    || retValue > maxValue) {
                     badValue = true;
-                    JOptionPane
-                            .showMessageDialog(parentComponent,
-                                               "The input should be : " 
-                                    + minValue + " <= " + paramDescription + " <= " + maxValue);
+                    JOptionPane.showMessageDialog(parentComponent,
+                                                  "The input should be : "
+                                                          + minValue + " <= "
+                                                          + paramDescription
+                                                          + " <= " + maxValue);
                 }
-             }
-            } while (numString != null && badValue);
+            }
+        } while (numString != null && badValue);
         if (numString != null) {
             return retValue;
         }
-        
+
         return previousValue;
     }
-
 
     public void setRelationsAsClasses() {
         RelationalContextEditor relContextEditor = getRelationalContextEditor();
@@ -453,23 +492,27 @@ public class AlphaController extends AbstractController implements PropertyChang
         }
         globalIntentDomain = new ArrayHashSet<FormalAttribute>(attributeSet);
         globalExtentDomain = new ArrayHashSet<FormalObject>(objectSet);
-        objToIntentMap = new HashMap<FormalObject, Intent>(globalExtentDomain.size() * 4 / 3);
+        objToIntentMap = new HashMap<FormalObject, Intent>(
+                                                           globalExtentDomain
+                                                                   .size() * 4 / 3);
         for (int i = 0; i < rc.size(); i++) {
             RelationBuilder relation = rc.get(i);
             BitSetExtent currentObjSet;
-            currentObjSet = new BitSetExtent(globalExtentDomain, relation.getObjects());
+            currentObjSet = new BitSetExtent(globalExtentDomain,
+                                             relation.getObjects());
             classList.add(currentObjSet);
             relationToClassMap.put(relation, currentObjSet);
-            makeObjToIntentMap((MatrixBinaryRelationBuilder) relation, currentObjSet);
+            makeObjToIntentMap((MatrixBinaryRelationBuilder) relation,
+                               currentObjSet);
         }
     }
-
 
     public void askParamList(String msg, List<Object> selectionList) {
         Component parentComponent;
 
         parentComponent = getRelationalContextEditor();
-        ChoiceDialogSelectionAlpha paramsSelectDialog = new ChoiceDialogSelectionAlpha(parentComponent,
+        ChoiceDialogSelectionAlpha paramsSelectDialog = new ChoiceDialogSelectionAlpha(
+                                                                                       parentComponent,
                                                                                        selectionList,
                                                                                        msg);
         paramsSelectDialog.askParameter();
@@ -488,7 +531,6 @@ public class AlphaController extends AbstractController implements PropertyChang
         askParamList("Select the classes/lattices you want to merge:",
                      selectionList);
     }
-
 
     public void askLatticeList(String msg) {
         List<Object> selectionList;
@@ -525,9 +567,13 @@ public class AlphaController extends AbstractController implements PropertyChang
             CompleteConceptLattice latticeParam = null;
             if (param instanceof MatrixBinaryRelationBuilder) {
                 MatrixBinaryRelationBuilder relation = (MatrixBinaryRelationBuilder) param;
-                LatticeAlgorithm algo = new BordatLatticeBuilder(relation, alphaValue, 
-                                                                 objToIntentMap, 
-                                                                 (BitSetExtent) relationToClassMap.get(relation), globalIntentDomain);
+                LatticeAlgorithm algo = new BordatLatticeBuilder(
+                                                                 relation,
+                                                                 alphaValue,
+                                                                 objToIntentMap,
+                                                                 (BitSetExtent) relationToClassMap
+                                                                         .get(relation),
+                                                                 globalIntentDomain);
                 algo.doAlgorithm();
                 latticeParam = algo.getLattice();
                 latticeParam.setDescription(relation.getName() + "("
@@ -540,30 +586,39 @@ public class AlphaController extends AbstractController implements PropertyChang
                     latticeParam = (CompleteConceptLattice) param;
                     latticeParamList.add(latticeParam);
                 } else {
-                    System.out.println("prepareLatticeParams: param is not a MatrixBinaryRelationBuilder nor a CompleteConceptLattice:" + param);
+                    System.out
+                            .println("prepareLatticeParams: param is not a MatrixBinaryRelationBuilder nor a CompleteConceptLattice:"
+                                     + param);
                 }
             }
         }
     }
 
-    public void browseLattice(final String windowTitle, final CompleteConceptLattice lattice) {
-        //Schedule a job for the event-dispatching thread:
-        //creating and showing this application's GUI.
+    public void browseLattice(final String windowTitle,
+                              final CompleteConceptLattice lattice) {
+        // Schedule a job for the event-dispatching thread:
+        // creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                LatticeAsTreeBrowser.createAndShowGUI(windowTitle + ": " + lattice.getDescription(), lattice.getTop());
+                LatticeAsTreeBrowser.createAndShowGUI(windowTitle
+                                                              + ": "
+                                                              + lattice
+                                                                      .getDescription(),
+                                                      lattice.getTop());
             }
         });
     }
+
     public void showLattice(String windowTitle, CompleteConceptLattice lattice) {
         LatticeGraphFrame frame;
-        frame = new LatticeGraphFrame(windowTitle + ": " + lattice.getDescription(),
+        frame = new LatticeGraphFrame(windowTitle + ": "
+                                      + lattice.getDescription(),
                                       lattice.getTop());
         frame.setVisible(true);
     }
-    
+
     public void showRuleBasis(RulesBasis ruleBasis) {
-        JFrame  ruleVisu = new TableVisualization(ruleBasis, rce);
+        JFrame ruleVisu = new TableVisualization(ruleBasis, rce);
         ruleVisu.setVisible(true);
     }
 
@@ -571,22 +626,26 @@ public class AlphaController extends AbstractController implements PropertyChang
         System.out.println("Computing generators:");
         Jen algoGenerateurs = new Jen(lattice);
         algoGenerateurs.computeLatticeGenerators();
-        System.out.println("Generators computation done.");        
+        System.out.println("Generators computation done.");
     }
-    
+
     public RulesBasis buildExactRuleList(CompleteConceptLattice lattice) {
         GenericBasis basis = new GenericBasis(lattice, 1);
         basis.doAlgorithm();
-        return new RulesBasis(relationList.get(0), lattice.getDescription(), basis.getBase(), minSupport, 1);
+        return new RulesBasis(relationList.get(0), lattice.getDescription(),
+                              basis.getBase(), minSupport, 1);
     }
-    
+
     public RulesBasis buildApproxRuleList(CompleteConceptLattice lattice) {
         InformativeBasis basis = new InformativeBasis(lattice, minConfidence);
         basis.doAlgorithm();
-        return new RulesBasis(relationList.get(0), lattice.getDescription(), basis.getBase(), minSupport, minConfidence);
+        return new RulesBasis(relationList.get(0), lattice.getDescription(),
+                              basis.getBase(), minSupport, minConfidence);
     }
-    public void showLatticeList(String windowTitle, List<CompleteConceptLattice> lattices) {
-         int latNumber = 1;
+
+    public void showLatticeList(String windowTitle,
+                                List<CompleteConceptLattice> lattices) {
+        int latNumber = 1;
         for (CompleteConceptLattice lat : lattices) {
             showLattice(windowTitle + "#" + latNumber + ":", lat);
             browseLattice(windowTitle + "#" + latNumber + ":", lat);
@@ -599,7 +658,8 @@ public class AlphaController extends AbstractController implements PropertyChang
         CompleteConceptLattice currentLattice;
         CompleteConceptLattice resultLattice;
 
-        Iterator<CompleteConceptLattice> iterLattice = latticeParamList.iterator();
+        Iterator<CompleteConceptLattice> iterLattice = latticeParamList
+                .iterator();
         resultList.clear();
         if (latticeParamList.isEmpty()) {
             System.out.println("Error:latticeParamList is empty");
@@ -614,9 +674,9 @@ public class AlphaController extends AbstractController implements PropertyChang
                                                 false);
             resultLattice.setDescription(lastResult.getDescription() + "+"
                                          + currentLattice.getDescription());
-            //latticeList.add(resultLattice);
-            //latticeTable.addLattice(resultLattice, alphaValue);
-            //resultList.add(resultLattice);
+            // latticeList.add(resultLattice);
+            // latticeTable.addLattice(resultLattice, alphaValue);
+            // resultList.add(resultLattice);
             lastResult = resultLattice;
         }
         latticeList.add(lastResult);
@@ -628,7 +688,6 @@ public class AlphaController extends AbstractController implements PropertyChang
      * gestion des evenement
      * 
      * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-     *      
      */
     public void actionPerformed(ActionEvent event) {
         if (event.getActionCommand().equals(SHOW_ALPHA_WINDOW_CMD)) {
@@ -643,13 +702,16 @@ public class AlphaController extends AbstractController implements PropertyChang
             }
         }
         if (event.getSource() == alphaValueMenuItem) {
-            alphaValue = askDoubleInRange("the alpha parameter", 0.0d, 1.0d, alphaValue);
+            alphaValue = askDoubleInRange("the alpha parameter", 0.0d, 1.0d,
+                                          alphaValue);
         }
         if (event.getSource() == minSupportMenuItem) {
-            minSupport = askDoubleInRange("the minimal support of rules", 0.0d, 1.0d, minSupport);
+            minSupport = askDoubleInRange("the minimal support of rules", 0.0d,
+                                          1.0d, minSupport);
         }
         if (event.getSource() == alphaValueMenuItem) {
-            minConfidence = askDoubleInRange("the minimal confidence of rules", 0.0d, 1.0d, minConfidence);
+            minConfidence = askDoubleInRange("the minimal confidence of rules",
+                                             0.0d, 1.0d, minConfidence);
         }
         // showLatticeParamsMenuItem
         if (event.getSource() == showLatticeParamsMenuItem) {
@@ -669,13 +731,15 @@ public class AlphaController extends AbstractController implements PropertyChang
             latticeParamList.clear();
         }
         if (event.getSource() == viewExactBRMenuItem) {
-            List<RulesBasis> selectedBR = askBRList("Select the Generic Basis you want to view", exactBRList);
+            List<RulesBasis> selectedBR = askBRList("Select the Generic Basis you want to view",
+                                                    exactBRList);
             for (RulesBasis base : selectedBR) {
                 showRuleBasis(base);
             }
         }
         if (event.getSource() == viewApproxBRMenuItem) {
-            List<RulesBasis> selectedBR = askBRList("Select the Informative Basis you want to view", approxBRList);
+            List<RulesBasis> selectedBR = askBRList("Select the Informative Basis you want to view",
+                                                    approxBRList);
             for (RulesBasis base : selectedBR) {
                 showRuleBasis(base);
             }
@@ -694,31 +758,34 @@ public class AlphaController extends AbstractController implements PropertyChang
         }
         // browse Lattice command
         if (event.getActionCommand().equals(BROWSE_LATTICE_CMD)) {
-            List<LatticeModel> latticeModelList = latticeSelectionPanel.getSelectedLattices();
+            List<LatticeModel> latticeModelList = latticeSelectionPanel
+                    .getSelectedLattices();
             if (latticeModelList == null || latticeModelList.isEmpty()) {
                 addMessage("Nothing to show");
                 return;
             }
             for (LatticeModel latticeModel : latticeModelList) {
-            	browseLattice("Lattice",  latticeModel.getLattice());
+                browseLattice("Lattice", latticeModel.getLattice());
             }
             latticeModelList.clear();
         }
         // show Lattice command
         if (event.getActionCommand().equals(SHOW_LATTICE_CMD)) {
-            List<LatticeModel> latticeModelList = latticeSelectionPanel.getSelectedLattices();
+            List<LatticeModel> latticeModelList = latticeSelectionPanel
+                    .getSelectedLattices();
             if (latticeModelList == null || latticeModelList.isEmpty()) {
                 addMessage("Nothing to show");
                 return;
             }
             for (LatticeModel latticeModel : latticeModelList) {
-            	showLattice("Lattice",  latticeModel.getLattice());
+                showLattice("Lattice", latticeModel.getLattice());
             }
             latticeModelList.clear();
         }
-        
+
         if (event.getActionCommand().equals(GENERATOR_CMD)) {
-            List<LatticeModel> latticeModelList = latticeSelectionPanel.getSelectedLattices();
+            List<LatticeModel> latticeModelList = latticeSelectionPanel
+                    .getSelectedLattices();
             if (latticeModelList == null || latticeModelList.isEmpty()) {
                 addMessage("Nothing to show");
                 return;
@@ -730,7 +797,7 @@ public class AlphaController extends AbstractController implements PropertyChang
             latticeTable.fireTableDataChanged();
             latticeModelList.clear();
             addMessage("Generator computation done.");
-            
+
         }
         if (event.getSource() == exactBRMenuItem) {
             askLatticeList("Select the lattices for Generic Basis extraction:");
@@ -738,20 +805,21 @@ public class AlphaController extends AbstractController implements PropertyChang
                 addMessage("Nothing to do");
                 return;
             }
-            
+
             for (CompleteConceptLattice lattice : latticeParamList) {
                 exactBRList.add(buildExactRuleList(lattice));
             }
             latticeParamList.clear();
-            addMessage("Generic Basis computation done.");            
+            addMessage("Generic Basis computation done.");
         }
         if (event.getActionCommand() == GENERIC_BASIS_CMD) {
-            List<LatticeModel> latticeModelList = latticeSelectionPanel.getSelectedLattices();
+            List<LatticeModel> latticeModelList = latticeSelectionPanel
+                    .getSelectedLattices();
             if (latticeModelList == null || latticeModelList.isEmpty()) {
                 addMessage("Nothing to show");
                 return;
             }
-            
+
             for (LatticeModel latticeModel : latticeModelList) {
                 RulesBasis currentBR;
                 currentBR = buildExactRuleList(latticeModel.getLattice());
@@ -759,7 +827,7 @@ public class AlphaController extends AbstractController implements PropertyChang
                 exactBRList.add(currentBR);
             }
             latticeModelList.clear();
-            addMessage("Generic Basis computation done.");            
+            addMessage("Generic Basis computation done.");
         }
         if (event.getSource() == approxBRMenuItem) {
             askLatticeList("Select the lattices for Informative Basis extraction:");
@@ -767,21 +835,22 @@ public class AlphaController extends AbstractController implements PropertyChang
                 addMessage("Nothing to do");
                 return;
             }
-            
+
             for (CompleteConceptLattice lattice : latticeParamList) {
                 approxBRList.add(buildApproxRuleList(lattice));
             }
             latticeParamList.clear();
-            addMessage("Informative Basis computation done.");            
-            
+            addMessage("Informative Basis computation done.");
+
         }
         if (event.getActionCommand().equals(INFORMATIVE_BASIS_CMD)) {
-            List<LatticeModel> latticeModelList = latticeSelectionPanel.getSelectedLattices();
+            List<LatticeModel> latticeModelList = latticeSelectionPanel
+                    .getSelectedLattices();
             if (latticeModelList == null || latticeModelList.isEmpty()) {
                 addMessage("Nothing to show");
                 return;
             }
-            
+
             for (LatticeModel latticeModel : latticeModelList) {
                 RulesBasis currentBR;
                 currentBR = buildApproxRuleList(latticeModel.getLattice());
@@ -789,15 +858,16 @@ public class AlphaController extends AbstractController implements PropertyChang
                 approxBRList.add(currentBR);
             }
             latticeModelList.clear();
-            addMessage("Generic Basis computation done.");            
+            addMessage("Generic Basis computation done.");
         }
         if (event.getActionCommand().equals(MERGE_CMD)) {
-            List<LatticeModel> latticeModelList = latticeSelectionPanel.getSelectedLattices();
+            List<LatticeModel> latticeModelList = latticeSelectionPanel
+                    .getSelectedLattices();
             if (latticeModelList == null || latticeModelList.size() < 2) {
                 addMessage("Incorrect parameters");
                 return;
             }
-            
+
             latticeParamList.clear();
             for (LatticeModel latticeModel : latticeModelList) {
                 latticeParamList.add(latticeModel.getLattice());
@@ -807,22 +877,27 @@ public class AlphaController extends AbstractController implements PropertyChang
             addMessage("Merging done.");
         }
         if (event.getActionCommand().equals(BUILD_LATTICE_CMD)) {
-            List<RelationModel> relationList = relationSelectionPanel.getSelectedRelations();
+            List<RelationModel> relationList = relationSelectionPanel
+                    .getSelectedRelations();
             if (relationList == null || relationList.isEmpty()) {
                 addMessage("Incorrect parameters");
                 return;
             }
-            
+
             for (RelationModel relationModel : relationList) {
-                MatrixBinaryRelationBuilder relation = (MatrixBinaryRelationBuilder) relationModel.getRelation();
-                LatticeAlgorithm algo = new BordatLatticeBuilder(relation, alphaValue, 
-                                                                 objToIntentMap, 
-                                                                 relationToClassMap.get(relation), 
+                MatrixBinaryRelationBuilder relation = (MatrixBinaryRelationBuilder) relationModel
+                        .getRelation();
+                LatticeAlgorithm algo = new BordatLatticeBuilder(
+                                                                 relation,
+                                                                 alphaValue,
+                                                                 objToIntentMap,
+                                                                 relationToClassMap
+                                                                         .get(relation),
                                                                  globalIntentDomain);
                 algo.doAlgorithm();
                 CompleteConceptLattice latticeParam = algo.getLattice();
                 latticeParam.setDescription(relation.getName() + "("
-                                                + alphaValue + ")");
+                                            + alphaValue + ")");
                 latticeList.add(latticeParam);
                 latticeTable.addLattice(latticeParam, alphaValue);
                 latticeParamList.add(latticeParam);
@@ -898,12 +973,8 @@ public class AlphaController extends AbstractController implements PropertyChang
             return;
         }
 
-        if (absRel instanceof InterObjectBinaryRelation) {
-            alphaMenu.setEnabled(false);
-            return;
-        }
     }
-    
+
     public void propertyChange(PropertyChangeEvent e) {
         if (alphaTextField.isSourceOfPropertyChange(e)) {
             alphaValue = alphaTextField.getValue();
@@ -913,15 +984,16 @@ public class AlphaController extends AbstractController implements PropertyChang
             minConfidence = minConfidenceTextField.getValue();
         }
     }
-    
 
-    public void makeObjToIntentMap(MatrixBinaryRelationBuilder relation, Set<FormalObject> objectSet) {
+    public void makeObjToIntentMap(MatrixBinaryRelationBuilder relation,
+                                   Set<FormalObject> objectSet) {
         for (FormalObject currentObject : objectSet) {
             BitSetIntent intent = new BitSetIntent(globalIntentDomain);
-            
+
             for (FormalAttribute currentAttribute : globalIntentDomain) {
-                AbstractFormalAttributeValue relValue = relation.getRelation(currentObject, currentAttribute);
-                if(!relValue.isFalse()) {
+                AbstractFormalAttributeValue relValue = relation
+                        .getRelation(currentObject, currentAttribute);
+                if (!relValue.isFalse()) {
                     intent.fastAdd(currentAttribute);
                 }
             }

@@ -44,11 +44,9 @@ import lattice.util.concept.DefaultFormalObject;
 import lattice.util.concept.FormalAttribute;
 import lattice.util.concept.FormalAttributeValue;
 import lattice.util.concept.FormalObject;
-import lattice.util.concept.InterObjectBinaryRelationAttribute;
 import lattice.util.concept.ScalingFormalAttribute;
 import lattice.util.exception.BadInputDataException;
 import lattice.util.relation.MatrixBinaryRelationBuilder;
-import lattice.util.relation.InterObjectBinaryRelation;
 import lattice.util.relation.RelationalContextFamily;
 import lattice.util.relation.ScalingBinaryRelation;
 
@@ -72,7 +70,7 @@ public class RcfReader extends AbstractReader  implements RelationalContextReade
 
 
   /**
-   * Déclaration abstraite de la méthode de lecture
+   * Dï¿½claration abstraite de la mï¿½thode de lecture
    * @return Vector - les elements du treillis
    */
   public RelationalContextFamily readRelationalContext() throws NamingException,BadInputDataException,ReadingFormatException,IOException {
@@ -91,9 +89,6 @@ public class RcfReader extends AbstractReader  implements RelationalContextReade
             if(line.equals("[C/NET Context]")){
                 readCNETRelationalContext(relCtx);
             }
-			if(line.equals("[Inter Object Binary Relation]")){
-				relCtx.add(readInterObjectBinaryRelation());
-			}
 			if(line.equals("[Scaling Binary Relation]")){
 				relCtx.add(readScalingBinaryRelation());
 			}
@@ -159,51 +154,6 @@ public class RcfReader extends AbstractReader  implements RelationalContextReade
         }
         return binRel;
     } 
-
-  public InterObjectBinaryRelation readInterObjectBinaryRelation() throws BadInputDataException,IOException {
-  	InterObjectBinaryRelation ioBinRel=null;
-  	String nomRel=getStream().readLine();
-  	// Added by Amine.
-	String sourceCtxName=getStream().readLine();
-	String targetCtxName=getStream().readLine();
-	// end Amine modifs
-	
-  	StringTokenizer sk=null;
-  	sk=new StringTokenizer(getStream().readLine().trim(),"|");
-  	Vector lesObjs=new Vector();
-  	while(sk.hasMoreElements()){
-  		lesObjs.add(new DefaultFormalObject(sk.nextElement().toString().trim())); 
-  	}
-  	sk=new StringTokenizer(getStream().readLine().trim(),"|");
-  	Vector lesAtts=new Vector();
-  	while(sk.hasMoreElements()){
-  		lesAtts.add(new InterObjectBinaryRelationAttribute(new DefaultFormalObject(sk.nextElement().toString().trim()))); 
-  	}
-  	ioBinRel=new InterObjectBinaryRelation(lesObjs.size(),lesAtts.size());
-	ioBinRel.setName(nomRel);
-	ioBinRel.setObjectsContextName(sourceCtxName);
-	ioBinRel.setAttributesContextName(targetCtxName);
-  	
-	for(int i=0;i<lesObjs.size();i++) {
-		ioBinRel.replaceObject(i,(FormalObject)lesObjs.elementAt(i));
-	}
-	for(int j=0;j<lesAtts.size();j++) {
-		ioBinRel.replaceAttribute(j,(FormalAttribute)lesAtts.elementAt(j));
-	}
-	
-	for(int i=0;i<lesObjs.size();i++) {
-		sk=new StringTokenizer(getStream().readLine().trim()," ");
-		if(sk==null || sk.countTokens()<lesAtts.size()) 
-		{ throw new BadInputDataException("Some relationship is missing in the RCF file ("+nomRel+":<InterObjectBinaryRelation>)\n"); }
-		int j=0;
-		while(sk.hasMoreElements()) {
-			ioBinRel.setRelation(i,j,sk.nextToken().trim().equals("1"));
-			j++;
-		}
-	}
-
-  	return ioBinRel;
-  } 
 
   public ScalingBinaryRelation readScalingBinaryRelation() throws BadInputDataException,IOException {
   	ScalingBinaryRelation scBinRel=null;

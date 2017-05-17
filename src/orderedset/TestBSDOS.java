@@ -33,7 +33,6 @@
 package orderedset;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
@@ -161,7 +160,7 @@ public class TestBSDOS {
 		if (arrayObjects == null) {
 			arrayObjects = makeArrayObjects();
 		}
-		Iterator iter = arrayObjects.iterator();
+		Iterator<String[]> iter = arrayObjects.iterator();
 		while (iter.hasNext()) {
 			theList.add(Arrays.asList(((String[]) iter.next())));
 		}

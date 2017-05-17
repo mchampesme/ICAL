@@ -49,11 +49,4 @@ public interface FormalAttribute extends Comparable {
 
 	public String getName();
 
-	// --- The Folowing MUST DISAPEAR do NOT USE !!! 
-
-	public void initExtension(Extent E, MatrixBinaryRelationBuilder bR);
-	
-	public TreeSet getExtension();
-	
-	public TreeSet intersection(TreeSet t); 
 }

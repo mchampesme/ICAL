@@ -54,13 +54,11 @@ import lattice.database.gui.DatabaseController;
 import lattice.database.task.DatabaseReadingTask;
 import lattice.database.task.DatabaseWritingTask;
 import lattice.database.util.DatabaseFunctions;
-import lattice.gsh.algorithm.Gagci_NoInc;
 import lattice.gui.controller.GSHController;
 import lattice.gui.controller.IcebergController;
 import lattice.gui.controller.LatticeController;
 import lattice.gui.controller.LatticeUpdateController;
 import lattice.gui.controller.MergeController;
-import lattice.gui.controller.RCAController;
 import lattice.gui.controller.RuleController;
 import lattice.gui.dialog.ExportDialogSelection;
 import lattice.gui.filter.XML_Filter;
@@ -83,7 +81,6 @@ import lattice.util.concept.SetExtent;
 import lattice.util.concept.SetIntent;
 import lattice.util.relation.RelationBuilder;
 import lattice.util.relation.MatrixBinaryRelationBuilder;
-import lattice.util.relation.InterObjectBinaryRelation;
 import lattice.util.relation.RelationalContextFamily;
 import lattice.util.relation.ScalingBinaryRelation;
 import lattice.util.structure.CompleteConceptLattice;
@@ -189,8 +186,6 @@ public class RelationalContextEditor extends OpenFileFrame implements
 
     protected GSHController shgC;
 
-    protected RCAController rcaC;
-
     protected DatabaseController databaseC;
 
     /**
@@ -223,7 +218,6 @@ public class RelationalContextEditor extends OpenFileFrame implements
         shgC = new GSHController(this);
         latticeUC = new LatticeUpdateController(this);
         mergeC = new MergeController(this);
-        rcaC = new RCAController(this);
         databaseC = new DatabaseController(this);
 
         // Initialise la barre de menu
@@ -260,7 +254,6 @@ public class RelationalContextEditor extends OpenFileFrame implements
         menuAlgo.add(shgC.getMainMenu());
         menuAlgo.add(latticeUC.getMainMenu());
         menuAlgo.add(mergeC.getMainMenu());
-        menuAlgo.add(rcaC.getMainMenu());
 
         menuAlpha = alphaMergeControler.getMainMenu();
 
@@ -477,7 +470,7 @@ public class RelationalContextEditor extends OpenFileFrame implements
             if (absRel instanceof MatrixBinaryRelationBuilder) {
                 showBinaryRelation((MatrixBinaryRelationBuilder) absRel);
             }
-         }
+        }
         setTopPanel(ongletPanel);
     }
 
@@ -509,13 +502,11 @@ public class RelationalContextEditor extends OpenFileFrame implements
             latticeIcebergC.checkPossibleActions();
             shgC.checkPossibleActions();
             mergeC.checkPossibleActions();
-            rcaC.checkPossibleActions();
             databaseC.checkPossibleActions();
             return;
         }
 
-        RelationBuilder absRel = relCtx.get(ongletPanel
-                .getSelectedIndex());
+        RelationBuilder absRel = relCtx.get(ongletPanel.getSelectedIndex());
 
         if (absRel instanceof MatrixBinaryRelationBuilder) {
             saveAllItem.setEnabled(true);
@@ -547,28 +538,12 @@ public class RelationalContextEditor extends OpenFileFrame implements
             menuAlpha.setEnabled(false);
         }
 
-        if (absRel instanceof InterObjectBinaryRelation) {
-            saveAllItem.setEnabled(true);
-            showGraphItem.setEnabled(false);
-            exportItem.setEnabled(true);
-            changeRelNameItem.setEnabled(true);
-            addAttItem.setEnabled(false);
-            addObjItem.setEnabled(false);
-            deleteAttItem.setEnabled(false);
-            deleteObjItem.setEnabled(false);
-            deleteRelItem.setEnabled(true);
-            scaleMenu.setEnabled(false);
-            menuAlgo.setEnabled(false);
-            menuAlpha.setEnabled(false);
-        }
-
         ruleC.checkPossibleActions();
         latticeC.checkPossibleActions();
         latticeUC.checkPossibleActions();
         latticeIcebergC.checkPossibleActions();
         shgC.checkPossibleActions();
         mergeC.checkPossibleActions();
-        rcaC.checkPossibleActions();
         databaseC.checkPossibleActions();
 
     }
@@ -703,7 +678,6 @@ public class RelationalContextEditor extends OpenFileFrame implements
             execDichotomicSaling();
         }
 
-
         // ********************* Menu Console
         // ***************************************************************
 
@@ -828,7 +802,8 @@ public class RelationalContextEditor extends OpenFileFrame implements
     }
 
     public void addConceptLattice(CompleteConceptLattice cl) {
-        MatrixBinaryRelationBuilder binRel = MatrixBinaryRelationBuilder.getInstanceFromLattice(cl);
+        MatrixBinaryRelationBuilder binRel = MatrixBinaryRelationBuilder
+                .getInstanceFromLattice(cl);
         binRel.setLattice(cl);
         addBinaryRelation(binRel);
         showAssociatedGraph();
@@ -867,8 +842,7 @@ public class RelationalContextEditor extends OpenFileFrame implements
     }
 
     public RelationBuilder getSelectedRelation() {
-        return (RelationBuilder) relCtx.get(ongletPanel
-                .getSelectedIndex());
+        return (RelationBuilder) relCtx.get(ongletPanel.getSelectedIndex());
     }
 
     public AbstractRelationTableEditor getSelectedTableEditor() {
@@ -918,8 +892,7 @@ public class RelationalContextEditor extends OpenFileFrame implements
     // ***************************************************************
 
     public void showAssociatedGraph() {
-        RelationBuilder absr = relCtx.get(ongletPanel
-                .getSelectedIndex());
+        RelationBuilder absr = relCtx.get(ongletPanel.getSelectedIndex());
         CompleteConceptLattice lat = absr.getLattice();
         if (lat == null) {
             JOptionPane
@@ -938,8 +911,7 @@ public class RelationalContextEditor extends OpenFileFrame implements
                 .showInputDialog(this, "Give a new name for the relation :");
         if (newName != null && !newName.equals("")) {
             ongletPanel.setTitleAt(ongletPanel.getSelectedIndex(), newName);
-            relCtx.get(ongletPanel.getSelectedIndex())
-                    .setName(newName);
+            relCtx.get(ongletPanel.getSelectedIndex()).setName(newName);
             ongletPanel.getSelectedComponent().validate();
         } else {
             addMessage("Changing relation name cancelled!\n");
@@ -998,7 +970,9 @@ public class RelationalContextEditor extends OpenFileFrame implements
             return;
         }
 
-        MatrixBinaryRelationBuilder binRel = new MatrixBinaryRelationBuilder(numObj, numAtt);
+        MatrixBinaryRelationBuilder binRel = new MatrixBinaryRelationBuilder(
+                                                                             numObj,
+                                                                             numAtt);
         addBinaryRelation(binRel);
         addMessage("Add a new binary relation completed\n");
     }
@@ -1077,7 +1051,9 @@ public class RelationalContextEditor extends OpenFileFrame implements
             return;
         }
 
-        MatrixBinaryRelationBuilder binRel = new MatrixBinaryRelationBuilder(numObj, numAtt);
+        MatrixBinaryRelationBuilder binRel = new MatrixBinaryRelationBuilder(
+                                                                             numObj,
+                                                                             numAtt);
         int nbElt = binRel.randomBinaryRelation(densite);
         addBinaryRelation(binRel);
         addMessage("New random binary relation completed with " + nbElt
@@ -1100,9 +1076,8 @@ public class RelationalContextEditor extends OpenFileFrame implements
         int relIdx = ongletPanel.getSelectedIndex();
         RelationBuilder absRel = relCtx.get(relIdx);
         absRel.addObject();
-        ((AbstractRelationTableEditor) setOfAbsRelTableEditor
-                .get(ongletPanel.getSelectedIndex()))
-                .setModelFromRelation(absRel);
+        ((AbstractRelationTableEditor) setOfAbsRelTableEditor.get(ongletPanel
+                .getSelectedIndex())).setModelFromRelation(absRel);
         ongletPanel.getSelectedComponent().validate();
     }
 
@@ -1110,9 +1085,8 @@ public class RelationalContextEditor extends OpenFileFrame implements
         int relIdx = ongletPanel.getSelectedIndex();
         RelationBuilder absRel = relCtx.get(relIdx);
         absRel.addAttribute();
-        ((AbstractRelationTableEditor) setOfAbsRelTableEditor
-                .get(ongletPanel.getSelectedIndex()))
-                .setModelFromRelation(absRel);
+        ((AbstractRelationTableEditor) setOfAbsRelTableEditor.get(ongletPanel
+                .getSelectedIndex())).setModelFromRelation(absRel);
         ongletPanel.getSelectedComponent().validate();
     }
 
@@ -1128,9 +1102,8 @@ public class RelationalContextEditor extends OpenFileFrame implements
         if (fo != null) {
             absRel.removeObject(fo);
         }
-        ((AbstractRelationTableEditor) setOfAbsRelTableEditor
-                .get(ongletPanel.getSelectedIndex()))
-                .setModelFromRelation(absRel);
+        ((AbstractRelationTableEditor) setOfAbsRelTableEditor.get(ongletPanel
+                .getSelectedIndex())).setModelFromRelation(absRel);
         ongletPanel.getSelectedComponent().validate();
     }
 
@@ -1150,9 +1123,8 @@ public class RelationalContextEditor extends OpenFileFrame implements
         if (fa != null) {
             absRel.removeAttribute(fa);
         }
-        ((AbstractRelationTableEditor) setOfAbsRelTableEditor
-                .get(ongletPanel.getSelectedIndex()))
-                .setModelFromRelation(absRel);
+        ((AbstractRelationTableEditor) setOfAbsRelTableEditor.get(ongletPanel
+                .getSelectedIndex())).setModelFromRelation(absRel);
         ongletPanel.getSelectedComponent().validate();
     }
 
@@ -1166,14 +1138,13 @@ public class RelationalContextEditor extends OpenFileFrame implements
         }
         if (rowIdx == 0
             && colIdx > 0
-            && !(relCtx.get(ongletPanel.getSelectedIndex()) instanceof ScalingBinaryRelation)
-            && !(relCtx.get(ongletPanel.getSelectedIndex()) instanceof InterObjectBinaryRelation)) {
+            && !(relCtx.get(ongletPanel.getSelectedIndex()) instanceof ScalingBinaryRelation)) {
             String val = null;
             do {
                 val = JOptionPane
-                        .showInputDialog(this, "Give a name to formal attribut"
-                                               + arte
-                                                       .getValueAt(rowIdx,
+                        .showInputDialog(this,
+                                         "Give a name to formal attribut"
+                                                 + arte.getValueAt(rowIdx,
                                                                    colIdx));
                 if (val != null) {
                     if (val.equals("") || val.indexOf("|") != -1) {
@@ -1191,14 +1162,13 @@ public class RelationalContextEditor extends OpenFileFrame implements
         }
         if (rowIdx > 0
             && colIdx == 0
-            && !(relCtx.get(ongletPanel.getSelectedIndex()) instanceof ScalingBinaryRelation)
-            && !(relCtx.get(ongletPanel.getSelectedIndex()) instanceof InterObjectBinaryRelation)) {
+            && !(relCtx.get(ongletPanel.getSelectedIndex()) instanceof ScalingBinaryRelation)) {
             String val = null;
             do {
                 val = JOptionPane
-                        .showInputDialog(this, "Give a name to formal object"
-                                               + arte
-                                                       .getValueAt(rowIdx,
+                        .showInputDialog(this,
+                                         "Give a name to formal object"
+                                                 + arte.getValueAt(rowIdx,
                                                                    colIdx));
                 if (val != null) {
                     if (val.equals("") || val.indexOf("|") != -1) {
@@ -1230,7 +1200,6 @@ public class RelationalContextEditor extends OpenFileFrame implements
         addMessage("This scalling is not yet imlemented!\n");
     }
 
-
     public void createInterObjectBinaryRelationTable() {
 
         String relAttrName = JOptionPane
@@ -1238,8 +1207,6 @@ public class RelationalContextEditor extends OpenFileFrame implements
                                  "What is the name of the relational attribute: ");
         List<String> relNames = new ArrayList<String>();
         for (int i = 0; i < relCtx.size(); i++) {
-            if (relCtx.get(i) instanceof InterObjectBinaryRelation)
-                continue;
             if (relCtx.get(i) instanceof ScalingBinaryRelation)
                 continue;
             if (relCtx.get(i) instanceof MatrixBinaryRelationBuilder)
@@ -1250,31 +1217,23 @@ public class RelationalContextEditor extends OpenFileFrame implements
             return;
         }
         String sourceCtx = (String) JOptionPane
-                .showInputDialog(
-                                 this,
+                .showInputDialog(this,
                                  "Choose a source context for the relational attribute: ",
                                  "Source context :",
-                                 JOptionPane.QUESTION_MESSAGE, null, relNames
-                                         .toArray(), relNames.get(0));
+                                 JOptionPane.QUESTION_MESSAGE, null,
+                                 relNames.toArray(), relNames.get(0));
         if (sourceCtx == null)
             return;
         String targetCtx = (String) JOptionPane
-                .showInputDialog(
-                                 this,
+                .showInputDialog(this,
                                  "Choose a target context for the relational attribute: ",
                                  "Target context :",
-                                 JOptionPane.QUESTION_MESSAGE, null, relNames
-                                         .toArray(), relNames.get(0));
+                                 JOptionPane.QUESTION_MESSAGE, null,
+                                 relNames.toArray(), relNames.get(0));
         if (targetCtx == null)
             return;
         RelationBuilder sourceRel = relCtx.getForName(sourceCtx);
         RelationBuilder targetRel = relCtx.getForName(targetCtx);
-        InterObjectBinaryRelation newRel = new InterObjectBinaryRelation(
-                                                                         sourceRel,
-                                                                         targetRel);
-        newRel.setName(relAttrName);
-        addBinaryRelation(newRel);
-
     }
 
     public void setWorkOnRelation(RelationBuilder absr) {
@@ -1302,8 +1261,8 @@ public class RelationalContextEditor extends OpenFileFrame implements
     // ---------------------------------------------------------------------------------------
     /*
      * (non-Javadoc)
-     * 
-     * @see java.awt.event.WindowListener#windowActivated(java.awt.event.WindowEvent)
+     * @see
+     * java.awt.event.WindowListener#windowActivated(java.awt.event.WindowEvent)
      */
     public void windowActivated(WindowEvent arg0) {
         // TODO Auto-generated method stub
@@ -1312,24 +1271,25 @@ public class RelationalContextEditor extends OpenFileFrame implements
 
     /*
      * (non-Javadoc)
-     * 
-     * @see java.awt.event.WindowListener#windowClosed(java.awt.event.WindowEvent)
+     * @see
+     * java.awt.event.WindowListener#windowClosed(java.awt.event.WindowEvent)
      */
     public void windowClosing(WindowEvent arg0) {
     }
 
     /*
      * (non-Javadoc)
-     * 
-     * @see java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
+     * @see
+     * java.awt.event.WindowListener#windowClosing(java.awt.event.WindowEvent)
      */
     public void windowClosed(WindowEvent arg0) {
     }
 
     /*
      * (non-Javadoc)
-     * 
-     * @see java.awt.event.WindowListener#windowDeactivated(java.awt.event.WindowEvent)
+     * @see
+     * java.awt.event.WindowListener#windowDeactivated(java.awt.event.WindowEvent
+     * )
      */
     public void windowDeactivated(WindowEvent arg0) {
         // TODO Auto-generated method stub
@@ -1338,8 +1298,9 @@ public class RelationalContextEditor extends OpenFileFrame implements
 
     /*
      * (non-Javadoc)
-     * 
-     * @see java.awt.event.WindowListener#windowDeiconified(java.awt.event.WindowEvent)
+     * @see
+     * java.awt.event.WindowListener#windowDeiconified(java.awt.event.WindowEvent
+     * )
      */
     public void windowDeiconified(WindowEvent arg0) {
         // TODO Auto-generated method stub
@@ -1348,8 +1309,8 @@ public class RelationalContextEditor extends OpenFileFrame implements
 
     /*
      * (non-Javadoc)
-     * 
-     * @see java.awt.event.WindowListener#windowIconified(java.awt.event.WindowEvent)
+     * @see
+     * java.awt.event.WindowListener#windowIconified(java.awt.event.WindowEvent)
      */
     public void windowIconified(WindowEvent arg0) {
         // TODO Auto-generated method stub
@@ -1358,8 +1319,8 @@ public class RelationalContextEditor extends OpenFileFrame implements
 
     /*
      * (non-Javadoc)
-     * 
-     * @see java.awt.event.WindowListener#windowOpened(java.awt.event.WindowEvent)
+     * @see
+     * java.awt.event.WindowListener#windowOpened(java.awt.event.WindowEvent)
      */
     public void windowOpened(WindowEvent arg0) {
         // TODO Auto-generated method stub
@@ -1392,27 +1353,11 @@ public class RelationalContextEditor extends OpenFileFrame implements
             LatticeAlgorithm algo = (LatticeAlgorithm) ((LatticeAlgorithmTask) theResult)
                     .getAlgo();
 
-            if (algo instanceof Gagci_NoInc) {
-                for (int i = 0; i < ((Gagci_NoInc) algo)
-                        .getSetOfEnrichingRelations().size(); i++) {
-                    String title = ((MatrixBinaryRelationBuilder) ((Gagci_NoInc) algo)
-                            .getSetOfEnrichingRelations().elementAt(i))
-                            .getName();
-                    LatticeGraphFrame f = new LatticeGraphFrame(
-                                                                title,
-                                                                ((MatrixBinaryRelationBuilder) ((Gagci_NoInc) algo)
-                                                                        .getSetOfEnrichingRelations()
-                                                                        .elementAt(
-                                                                                   i))
-                                                                        .getLattice()
-                                                                        .getTop());
-                    f.show();
-                }
-            } else {
-                LatticeGraphFrame f = new LatticeGraphFrame(algo
-                        .getDescription(), algo.getLattice().getTop());
-                f.show();
-            }
+            LatticeGraphFrame f = new LatticeGraphFrame(algo.getDescription(),
+                                                        algo.getLattice()
+                                                                .getTop());
+            f.show();
+
         }
 
         if (theResult instanceof ruleAbstractTask) {
@@ -1456,7 +1401,8 @@ public class RelationalContextEditor extends OpenFileFrame implements
                 }
                 for (int i = 0; i < rc.size(); i++) {
                     if (rc.get(i) instanceof MatrixBinaryRelationBuilder)
-                        addBinaryRelation((MatrixBinaryRelationBuilder) rc.get(i));
+                        addBinaryRelation((MatrixBinaryRelationBuilder) rc
+                                .get(i));
                 }
                 addMessage("Reading done!\n");
             }
@@ -1467,9 +1413,8 @@ public class RelationalContextEditor extends OpenFileFrame implements
                 if (getSelectedRelation().getName()
                         .equals(RelationBuilder.DEFAULT_NAME)) {
                     getSelectedRelation()
-                            .setName(
-                                             ((ReadingTask) theResult)
-                                                     .getDefaultNameForData());
+                            .setName(((ReadingTask) theResult)
+                                             .getDefaultNameForData());
                     ongletPanel.setTitleAt(ongletPanel.getSelectedIndex(),
                                            ((ReadingTask) theResult)
                                                    .getDefaultNameForData());
@@ -1507,22 +1452,14 @@ public class RelationalContextEditor extends OpenFileFrame implements
                     if (relCtxFam.get(i) instanceof ScalingBinaryRelation) {
                         addBinaryRelation((ScalingBinaryRelation) relCtxFam
                                 .get(i));
-                        addMessage("Relation '"
-                                   + relCtxFam.get(i).getName()
-                                   + "' loaded from database");
-                    } else if (relCtxFam.get(i) instanceof InterObjectBinaryRelation) {
-                        addBinaryRelation((InterObjectBinaryRelation) relCtxFam
-                                .get(i));
-                        addMessage("Relation '"
-                                   + relCtxFam.get(i).getName()
+                        addMessage("Relation '" + relCtxFam.get(i).getName()
                                    + "' loaded from database");
                     } else if (relCtxFam.get(i) instanceof MatrixBinaryRelationBuilder) {
                         addBinaryRelation((MatrixBinaryRelationBuilder) relCtxFam
                                 .get(i));
-                        addMessage("Relation '"
-                                   + relCtxFam.get(i).getName()
+                        addMessage("Relation '" + relCtxFam.get(i).getName()
                                    + "' loaded from database");
-                    } 
+                    }
                 }
                 addMessage("Reading from database done\n");
             }
@@ -1567,28 +1504,25 @@ public class RelationalContextEditor extends OpenFileFrame implements
                                     isExact = false;
                                 }
                             }
-                           XmlRuleExport export = new XmlRuleExport();
+                            XmlRuleExport export = new XmlRuleExport();
                             if (isExact) {
-                                export.sauvegardeReglesExactesFichierXML(
-                                                                           fileName,
-                                                                           rules,
-                                                                           rulesBasis
-                                                                                   .getDatasetName(),
-                                                                           rulesBasis
-                                                                                   .getMinConfidence(),
-                                                                           rulesBasis
-                                                                                   .getMinSupport());
+                                export.sauvegardeReglesExactesFichierXML(fileName,
+                                                                         rules,
+                                                                         rulesBasis
+                                                                                 .getDatasetName(),
+                                                                         rulesBasis
+                                                                                 .getMinConfidence(),
+                                                                         rulesBasis
+                                                                                 .getMinSupport());
                             } else {
-                                export
-                                        .sauvegardeReglesApproximativesFichierXML(
-                                                                                  fileName,
-                                                                                  rules,
-                                                                                  rulesBasis
-                                                                                          .getDatasetName(),
-                                                                                  rulesBasis
-                                                                                          .getMinConfidence(),
-                                                                                  rulesBasis
-                                                                                          .getMinSupport());
+                                export.sauvegardeReglesApproximativesFichierXML(fileName,
+                                                                                rules,
+                                                                                rulesBasis
+                                                                                        .getDatasetName(),
+                                                                                rulesBasis
+                                                                                        .getMinConfidence(),
+                                                                                rulesBasis
+                                                                                        .getMinSupport());
                             }
                         }
                     }
@@ -1607,8 +1541,8 @@ public class RelationalContextEditor extends OpenFileFrame implements
                     CompleteConceptLattice lattice = (CompleteConceptLattice) theData;
                     if (lattice != null) {
                         getSelectedRelation().setLattice(lattice);
-                        new LatticeGraphFrame(lattice.getDescription(), lattice
-                                .getTop()).show();
+                        new LatticeGraphFrame(lattice.getDescription(),
+                                              lattice.getTop()).show();
                     }
                     addMessage("Lattice successfully loaded\n");
                 } else if (dataName.equals("Export Lattice")) {
@@ -1709,9 +1643,8 @@ public class RelationalContextEditor extends OpenFileFrame implements
             concept = new ConceptImp(extent, intent);
             absRel.removeAttribute(fa);
         }
-        ((AbstractRelationTableEditor) setOfAbsRelTableEditor
-                .get(ongletPanel.getSelectedIndex()))
-                .setModelFromRelation(absRel);
+        ((AbstractRelationTableEditor) setOfAbsRelTableEditor.get(ongletPanel
+                .getSelectedIndex())).setModelFromRelation(absRel);
         ongletPanel.getSelectedComponent().validate();
         // System.out.println("CONCEPT: "+concept.getExtent()+" ,
         // "+concept.getIntent());

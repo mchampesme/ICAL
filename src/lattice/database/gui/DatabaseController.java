@@ -44,7 +44,6 @@ import lattice.gui.RelationalContextEditor;
 import lattice.gui.controller.AbstractController;
 import lattice.util.relation.RelationBuilder;
 import lattice.util.relation.MatrixBinaryRelationBuilder;
-import lattice.util.relation.InterObjectBinaryRelation;
 import lattice.util.relation.RelationalContextFamily;
 import lattice.util.relation.ScalingBinaryRelation;
 import rule.gui.IntentsTableVisualization;
@@ -175,14 +174,7 @@ public class DatabaseController extends AbstractController {
 			saveFamilyItem.setEnabled(true);
 			RelationBuilder absRel = rce.getSelectedRelation();
 			
-			if (absRel instanceof InterObjectBinaryRelation) {
-				latticesMenu.setEnabled(false);
-				saveAssociatedLatticeItem.setEnabled(false);
-				exportAssociatedLatticeToXMLItem.setEnabled(false);
-				viewAssociatedLatticeItem.setEnabled(false);
-				viewIntentsItem.setEnabled(false);
-			}
-			else if (absRel instanceof ScalingBinaryRelation) {
+			if (absRel instanceof ScalingBinaryRelation) {
 				latticesMenu.setEnabled(false);
 				saveAssociatedLatticeItem.setEnabled(false);
 				exportAssociatedLatticeToXMLItem.setEnabled(false);

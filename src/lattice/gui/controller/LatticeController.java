@@ -54,7 +54,6 @@ import lattice.gui.RelationalContextEditor;
 import lattice.iceberg.algorithm.BordatIceberg;
 import lattice.util.relation.RelationBuilder;
 import lattice.util.relation.MatrixBinaryRelationBuilder;
-import lattice.util.relation.InterObjectBinaryRelation;
 import lattice.util.relation.ScalingBinaryRelation;
 
 /**
@@ -209,9 +208,5 @@ public class LatticeController extends AbstractController {
       return;
     }
 
-    if(absRel instanceof InterObjectBinaryRelation){
-      menuTrellit.setEnabled(false);
-      return;
-    }
   }
 }

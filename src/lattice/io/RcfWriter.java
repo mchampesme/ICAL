@@ -25,7 +25,6 @@ import java.io.Writer;
 import lattice.util.concept.FormalAttribute;
 import lattice.util.concept.FormalObject;
 import lattice.util.relation.MatrixBinaryRelationBuilder;
-import lattice.util.relation.InterObjectBinaryRelation;
 import lattice.util.relation.RelationalContextFamily;
 import lattice.util.relation.ScalingBinaryRelation;
 
@@ -55,10 +54,7 @@ public class RcfWriter extends AbstractWriter implements
         getStream().write("[Relational Context]\n");
         getStream().write(relCtx.getName() + "\n");
         for (int i = 0; i < relCtx.size(); i++) {
-            if (relCtx.get(i) instanceof InterObjectBinaryRelation)
-                writeInterObjectBinaryRelation((InterObjectBinaryRelation) relCtx
-                        .get(i));
-            else if (relCtx.get(i) instanceof ScalingBinaryRelation)
+            if (relCtx.get(i) instanceof ScalingBinaryRelation)
                 writeScalingBinaryRelation((ScalingBinaryRelation) relCtx
                         .get(i));
             else if (relCtx.get(i) instanceof MatrixBinaryRelationBuilder)
@@ -101,43 +97,6 @@ public class RcfWriter extends AbstractWriter implements
             getStream().write(line + "\n");
         }
         getStream().flush();
-    }
-
-    public void writeInterObjectBinaryRelation(
-                                               InterObjectBinaryRelation ioBinRel)
-                                                                                  throws IOException {
-        getStream().write("[Inter Object Binary Relation]\n");
-        getStream().write(ioBinRel.getName() + "\n");
-        // Added by Amine
-        getStream().write(ioBinRel.getObjectsContextName() + "\n");
-        getStream().write(ioBinRel.getAttributesContextName() + "\n");
-        // end Amine modifs
-
-        FormalObject[] lesObjs = ioBinRel.getFormalObjects();
-        FormalAttribute[] lesAtts = ioBinRel.getFormalAttributes();
-        String line = "";
-        for (int i = 0; i < lesObjs.length; i++) {
-            line = line + lesObjs[i].toString() + " | ";
-        }
-        getStream().write(line + "\n");
-        line = "";
-        for (int j = 0; j < lesAtts.length; j++) {
-            line = line + lesAtts[j].toString() + " | ";
-        }
-        getStream().write(line + "\n");
-        for (int i = 0; i < lesObjs.length; i++) {
-            line = "";
-            for (int j = 0; j < lesAtts.length; j++) {
-                if (ioBinRel.getRelation(lesObjs[i], lesAtts[j]).isFalse()) {
-                    line = line + "0 ";
-                } else {
-                    line = line + "1 ";
-                }
-            }
-            getStream().write(line + "\n");
-        }
-        getStream().flush();
-
     }
 
     public void writeScalingBinaryRelation(ScalingBinaryRelation scBinRel)

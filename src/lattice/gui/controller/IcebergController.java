@@ -47,7 +47,6 @@ import lattice.iceberg.algorithm.MagaliceO;
 import lattice.iceberg.algorithm.Titanic;
 import lattice.util.relation.RelationBuilder;
 import lattice.util.relation.MatrixBinaryRelationBuilder;
-import lattice.util.relation.InterObjectBinaryRelation;
 import lattice.util.relation.ScalingBinaryRelation;
 
 
@@ -255,10 +254,6 @@ extends AbstractController {
 				return;
 			}
 
-			if(absRel instanceof InterObjectBinaryRelation){
-				menuIceberg.setEnabled(false);
-				return;
-			}
 		}
 		
 		public String selectMinSupp(){
