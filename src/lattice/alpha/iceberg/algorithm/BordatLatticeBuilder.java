@@ -145,7 +145,7 @@ public class BordatLatticeBuilder extends LatticeAlgorithm {
     }
 
     /**
-     * Construct and return a new instance which represents the top concept of
+     * Construct and return a new Concept instance which represents the top concept of
      * the lattice. The top concept is defined here as the concept whose extent
      * is the set of all objects of the given relation.
      * 
@@ -217,12 +217,12 @@ public class BordatLatticeBuilder extends LatticeAlgorithm {
 
     public void doBordat(Node<Concept> top) {
         long nodeProcessed = 0;
-        Concept concept = top.getContent();
+        Concept parentConcept = top.getContent();
         LinkedList<Node<Concept>> candidate = new LinkedList<Node<Concept>>();
         Map<Concept, Node<Concept>> conceptToNodeMap = new Hashtable<Concept, Node<Concept>>();
         Node<Concept> bottomNode = getLattice().getBottom();
 
-        conceptToNodeMap.put(concept, top);
+        conceptToNodeMap.put(parentConcept, top);
         conceptToNodeMap.put(bottomNode.getContent(), bottomNode);
 
         candidate.addLast(top);
@@ -239,11 +239,11 @@ public class BordatLatticeBuilder extends LatticeAlgorithm {
                                    + "th node at " + date);
             }
 
-            top = candidate.getFirst();
+            Node<Concept> parentNode = candidate.getFirst();
 
-            concept = top.getContent();
+            parentConcept = parentNode.getContent();
 
-            List<Concept> lowerCoverFirst = findLowerCover(concept);
+            List<Concept> lowerCoverFirst = findLowerCover(parentConcept);
             // System.out.println("lowerConcept#" + nodeProcessed + ":" +
             // lowerCoverFirst);
             double brObjectNumber = (double) getBinaryRelation()
@@ -270,13 +270,13 @@ public class BordatLatticeBuilder extends LatticeAlgorithm {
                         candidate.addLast(childNode);
                         getLattice().incNbOfNodes();
                     }
-                    childNode.linkToUpperCovers(top);
+                    childNode.linkToUpperCovers(parentNode);
                 }
             }
             if (childNumber == 0) {
-                bottomNode.linkToUpperCovers(top);
+                bottomNode.linkToUpperCovers(parentNode);
             }
-            getLattice().add(top);
+            getLattice().add(parentNode);
             candidate.removeFirst();
         } while (!candidate.isEmpty());
 
@@ -287,8 +287,8 @@ public class BordatLatticeBuilder extends LatticeAlgorithm {
         long time = dateEnd.getTime() - dateStart.getTime();
         long timeSec = (long) (time / 1000);
         long timeMin = (long) (timeSec / 60);
-        System.out.println("BordatLatticeBuilder: Total processing time "
-                           + time + "ms or " + timeMin + "mn "
+        System.out.println("BordatLatticeBuilder: Total processing time " + time
+                           + "ms or " + timeMin + "mn "
                            + (timeSec - timeMin * 60) + "s");
         // System.out.println("BordatLatticeBuilder: bottomConcept of lattice is
         // " + getLattice().getBottomConceptNode().getConcept());
@@ -298,8 +298,17 @@ public class BordatLatticeBuilder extends LatticeAlgorithm {
     }
 
     /**
+     * Return a list of Concept which constitutes the lower cover of the
+     * spécified Concept. The lower cover is the list of Concept which are the
+     * immediate successors (Concept whose intent include -- are bigger than --
+     * the intent of the specified Concept) of the specified concept in this
+     * Concept Latiice. The resulting Concept are NOT added to the Concept
+     * Lattice.
+     * 
      * @param concept
-     * @return a list of concept
+     *            the Concept for which the lower cover is computed
+     * @return a list of Concept which form the lower cover of the specified
+     *         Concept.
      */
     /*
      * @
@@ -343,8 +352,8 @@ public class BordatLatticeBuilder extends LatticeAlgorithm {
             if (objIntent.intersection(refIntentCopy).equals(refIntent)) {
                 // System.out.println("Found lower cover:" + objExtent + "@" +
                 // objIntent);
-                lowerCover.add(new BGConcept(objExtent.clone(), objIntent
-                        .clone()));
+                lowerCover.add(new BGConcept(objExtent.clone(),
+                                             objIntent.clone()));
             }
 
             refIntentCopy.fastAddAll(objIntent);
@@ -352,7 +361,7 @@ public class BordatLatticeBuilder extends LatticeAlgorithm {
             firstObj = findFirstObj(refIntentCopy, objIter);
         }
 
-        // Here we need add the bottomConcept Node of the
+        // Here we need to add the bottomConcept Node of the
         // lattice!!!!!!!!!!!!!!!!!
         int nbrAttrsOfBottom = bottomConcept.getIntent().size();
         if (lowerCover.isEmpty() && (refIntent.size() != nbrAttrsOfBottom)) {

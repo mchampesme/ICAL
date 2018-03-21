@@ -38,7 +38,7 @@ import lattice.util.relation.RelationBuilder;
  * Copyright : Copyright (c) 2002
  * </p>
  * <p>
- * Société : Université de Montréal
+ * Sociï¿½tï¿½ : Universitï¿½ de Montrï¿½al
  * </p>
  * 
  * @author Alexandre Frantz et Pascal Camarda
@@ -46,10 +46,10 @@ import lattice.util.relation.RelationBuilder;
  */
 
 /*
- * Title : Réingénierie du package util : Fusion de util et util2 Description :
+ * Title : Rï¿½ingï¿½nierie du package util : Fusion de util et util2 Description :
  * Fusion de la classe LinkedConceptLattice (util) et de la classe
  * ConceptLattice (util2) Copyright: Copyright (c) 2004 Company: Universite de
- * Montréal
+ * Montrï¿½al
  * 
  * @version 1.1 @author Mame Awa Diop et Petko Valtchev TODO To change the
  *          template for this generated type comment go to Window - Preferences -
@@ -60,7 +60,7 @@ public class CompleteConceptLatticeImp extends AbstractCompleteConceptLattice {
 
     public LevelIndex intent_level_index; // Index des concepts par la taille
 
-    // (cardinalité) de leur intention
+    // (cardinalitï¿½) de leur intention
     protected int max_transaction_size;
 
     protected int nbr_concept;
@@ -184,7 +184,7 @@ public class CompleteConceptLatticeImp extends AbstractCompleteConceptLattice {
     }
 
     /**
-     * Iterator donne acces aux ÈlÈments du treillis par cardinalitÈ croissante
+     * Iterator donne acces aux ï¿½lï¿½ments du treillis par cardinalitï¿½ croissante
      * de leur intent. A garder.
      */
     public Iterator<Node<Concept>> iterator() {

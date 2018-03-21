@@ -91,22 +91,22 @@ public class MatrixBinaryRelationBuilder implements RelationBuilder {
 
         // Recuperation des attributs
         lcl.getTop().resetDegre();
-        List<Node<Concept>> Q = new ArrayList<Node<Concept>>();
-        Q.add(lcl.getTop());
+        List<Node<Concept>> lNode = new ArrayList<Node<Concept>>();
+        lNode.add(lcl.getTop());
         Node<Concept> nodeToTest;
-        while (Q.size() != 0) {
-            nodeToTest = (Node<Concept>) Q.remove(0);
+        while (lNode.size() != 0) {
+            nodeToTest = lNode.remove(0);
             // info pour l'extension lineaire
             Iterator<Node<Concept>> itCNode = nodeToTest.getChildren()
                     .iterator();
             while (itCNode.hasNext()) {
-                Node<Concept> P = itCNode.next();
-                if (P.getDegre() == -1) {
-                    P.setDegre(P.getParents().size());
+                Node<Concept> aNode = itCNode.next();
+                if (aNode.getDegre() == -1) {
+                    aNode.setDegre(aNode.getParents().size());
                 }
-                P.setDegre(P.getDegre() - 1);
-                if (P.getDegre() == 0) {
-                    Q.add(P);
+                aNode.setDegre(aNode.getDegre() - 1);
+                if (aNode.getDegre() == 0) {
+                    lNode.add(aNode);
                 }
             }
             Iterator<FormalAttribute> itFatt = nodeToTest.getContent()
@@ -133,10 +133,10 @@ public class MatrixBinaryRelationBuilder implements RelationBuilder {
 
         // remplissage des relations
         lcl.getTop().resetDegre();
-        Q = new ArrayList<Node<Concept>>();
-        Q.add(lcl.getTop());
-        while (Q.size() != 0) {
-            nodeToTest = Q.remove(0);
+        lNode = new ArrayList<Node<Concept>>();
+        lNode.add(lcl.getTop());
+        while (lNode.size() != 0) {
+            nodeToTest = lNode.remove(0);
             // info pour l'extension lineaire
             Iterator<Node<Concept>> itCnode = nodeToTest.getChildren()
                     .iterator();
@@ -147,7 +147,7 @@ public class MatrixBinaryRelationBuilder implements RelationBuilder {
                 }
                 P.setDegre(P.getDegre() - 1);
                 if (P.getDegre() == 0) {
-                    Q.add(P);
+                    lNode.add(P);
                 }
             }
 

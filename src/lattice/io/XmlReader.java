@@ -51,7 +51,6 @@ import lattice.util.structure.CompleteConceptLattice;
 import lattice.util.structure.CompleteConceptLatticeImp;
 import lattice.util.structure.ConceptNode;
 import lattice.util.structure.ConceptNodeImp;
-import lattice.util.structure.LatticeGraph;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -272,8 +271,6 @@ public class XmlReader extends AbstractReader implements
             CompleteConceptLattice lcl = null;
             if (currentTag.getAttribute("type").equals("ConceptLattice"))
                 lcl = new CompleteConceptLatticeImp();
-            if (currentTag.getAttribute("type").equals("LatticeGraph"))
-                lcl = new LatticeGraph();
 
             Map<String, FormalObject> idObj = new Hashtable<String, FormalObject>();
             Map<String, FormalAttribute> idAtt = new Hashtable<String, FormalAttribute>();
@@ -391,9 +388,6 @@ public class XmlReader extends AbstractReader implements
                         lcl.setBottom(tempBottom);
                     }
 
-                    if (lcl instanceof LatticeGraph) {
-                        ((LatticeGraph) lcl).add(newNode);
-                    }
                     if (lcl instanceof CompleteConceptLatticeImp) {
                         ((CompleteConceptLatticeImp) lcl).incNbOfNodes();
                     }

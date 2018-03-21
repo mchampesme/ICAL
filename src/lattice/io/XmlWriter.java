@@ -38,7 +38,6 @@ import lattice.util.relation.ScalingBinaryRelation;
 import lattice.util.structure.CompleteConceptLattice;
 import lattice.util.structure.CompleteConceptLatticeImp;
 import lattice.util.structure.ConceptNode;
-import lattice.util.structure.LatticeGraph;
 
 /**
  * <p>
@@ -57,8 +56,8 @@ import lattice.util.structure.LatticeGraph;
  * @author Alexandre Frantz et Pascal Camarda
  * @version 1.0
  */
-public class XmlWriter extends AbstractWriter implements
-        RelationalContextWriter, LatticeWriter {
+public class XmlWriter extends AbstractWriter
+        implements RelationalContextWriter, LatticeWriter {
     private int typeOfWriting = -1;
 
     /**
@@ -88,12 +87,10 @@ public class XmlWriter extends AbstractWriter implements
      *            le treillis a enregistrer
      */
     public void writeBinaryRelation(MatrixBinaryRelationBuilder binRel) throws IOException {
-        getStream().write(
-                          "<BIN name=\"" + binRel.getName()
-                                  + "\" nbObj=\"" + binRel.getObjectsNumber()
-                                  + "\" nbAtt=\""
-                                  + binRel.getAttributesNumber()
-                                  + "\" type=\"MatrixBinaryRelationBuilder\">\n");
+        getStream().write("<BIN name=\"" + binRel.getName() + "\" nbObj=\""
+                          + binRel.getObjectsNumber() + "\" nbAtt=\""
+                          + binRel.getAttributesNumber()
+                          + "\" type=\"MatrixBinaryRelationBuilder\">\n");
 
         getStream().write("<OBJS>\n");
         for (int i = 0; i < binRel.getObjectsNumber(); i++) {
@@ -117,9 +114,8 @@ public class XmlWriter extends AbstractWriter implements
         for (int i = 0; i < binRel.getObjectsNumber(); i++) {
             for (int j = 0; j < binRel.getAttributesNumber(); j++) {
                 if (!binRel.getRelation(i, j).isFalse()) {
-                    getStream().write(
-                                      "<REL idObj=\"" + i + "\" idAtt=\"" + j
-                                              + "\">");
+                    getStream().write("<REL idObj=\"" + i + "\" idAtt=\"" + j
+                                      + "\">");
                     getStream().write("</REL>\n");
                 }
             }
@@ -131,30 +127,24 @@ public class XmlWriter extends AbstractWriter implements
 
     }
 
-    public void writeScalingBinaryRelation(ScalingBinaryRelation scBinRel)
-                                                                          throws IOException {
-        getStream().write(
-                          "<BIN name=\"" + scBinRel.getName()
-                                  + "\" nbObj=\"" + scBinRel.getObjectsNumber()
-                                  + "\" nbAtt=\""
-                                  + scBinRel.getAttributesNumber()
-                                  + "\" type=\"ScallingBinaryRelation\">\n");
+    public void writeScalingBinaryRelation(ScalingBinaryRelation scBinRel) throws IOException {
+        getStream().write("<BIN name=\"" + scBinRel.getName() + "\" nbObj=\""
+                          + scBinRel.getObjectsNumber() + "\" nbAtt=\""
+                          + scBinRel.getAttributesNumber()
+                          + "\" type=\"ScallingBinaryRelation\">\n");
 
         getStream().write("<ATTS>\n");
         for (int i = 0; i < scBinRel.getAttributesNumber(); i++) {
-                getStream().write(
-                                  "<ATT id=\""
-                                          + i
-                                          + "\" name=\""
-                                          + ((ScalingFormalAttribute) scBinRel
-                                                  .getFormalAttribute(i))
-                                                  .getAttribute().toString()
-                                          + "\" value=\""
-                                          + ((ScalingFormalAttribute) scBinRel
-                                                  .getFormalAttribute(i))
-                                                  .getValue().toString()
-                                          + "\">");
-                getStream().write("</ATT>\n");
+            getStream()
+                    .write("<ATT id=\"" + i + "\" name=\""
+                           + ((ScalingFormalAttribute) scBinRel
+                                   .getFormalAttribute(i))
+                                           .getAttribute().toString()
+                           + "\" value=\""
+                           + ((ScalingFormalAttribute) scBinRel
+                                   .getFormalAttribute(i)).getValue().toString()
+                           + "\">");
+            getStream().write("</ATT>\n");
         }
         getStream().write("</ATTS>\n");
         getStream().flush();
@@ -163,9 +153,8 @@ public class XmlWriter extends AbstractWriter implements
         for (int i = 0; i < scBinRel.getObjectsNumber(); i++) {
             for (int j = 0; j < scBinRel.getAttributesNumber(); j++) {
                 if (!scBinRel.getRelation(i, j).isFalse()) {
-                    getStream().write(
-                                      "<REL idObj=\"" + i + "\" idAtt=\"" + j
-                                              + "\">");
+                    getStream().write("<REL idObj=\"" + i + "\" idAtt=\"" + j
+                                      + "\">");
                     getStream().write("</REL>\n");
                 }
             }
@@ -179,18 +168,17 @@ public class XmlWriter extends AbstractWriter implements
 
     /*
      * (non-Javadoc)
-     * 
-     * @see lattice.io.LatticeWriter#writeConceptLattice(lattice.util.AbstractCompleteConceptLattice)
+     * @see lattice.io.LatticeWriter#writeConceptLattice(lattice.util.
+     * AbstractCompleteConceptLattice)
      */
-    public void writeConceptLattice(CompleteConceptLattice lattice)
-                                                                   throws BadInputDataException,
-                                                                   IOException {
+    public void writeConceptLattice(CompleteConceptLattice lattice) throws BadInputDataException,
+                                                                    IOException {
 
         // Recup�ration des Objets
         int nextIdObj = 0;
         Hashtable lesObjs = new Hashtable();
-        for (Iterator it = lattice.getTop().getContent().getExtent().iterator(); it
-                .hasNext();) {
+        for (Iterator it = lattice.getTop().getContent().getExtent()
+                .iterator(); it.hasNext();) {
             FormalObject fo = (FormalObject) it.next();
             if (lesObjs.get(fo) == null) {
                 lesObjs.put(fo, new Integer(nextIdObj));
@@ -221,17 +209,15 @@ public class XmlWriter extends AbstractWriter implements
                     Q.add(P);
                 }
             }
-            for (Iterator it = nodeToTest.getContent().getIntent().iterator(); it
-                    .hasNext();) {
+            for (Iterator it = nodeToTest.getContent().getIntent()
+                    .iterator(); it.hasNext();) {
                 lesAtts.put(it.next(), new Integer(nextIdAtt));
                 nextIdAtt++;
             }
         }
 
         getStream().write("<LAT Desc=\"" + lattice.getDescription() + "\" ");
-        if (lattice instanceof LatticeGraph)
-            getStream().write("type=\"LatticeGraph\"");
-        else if (lattice instanceof CompleteConceptLatticeImp)
+        if (lattice instanceof CompleteConceptLatticeImp)
             getStream().write("type=\"ConceptLattice\"");
         getStream().write(">\n");
 
@@ -243,10 +229,8 @@ public class XmlWriter extends AbstractWriter implements
         getStream().write("<OBJS>\n");
         for (Iterator iter = lesObjs.keySet().iterator(); iter.hasNext();) {
             FormalObject fo = (FormalObject) iter.next();
-            getStream().write(
-                              "<OBJ id=\""
-                                      + ((Integer) lesObjs.get(fo)).intValue()
-                                      + "\">");
+            getStream().write("<OBJ id=\""
+                              + ((Integer) lesObjs.get(fo)).intValue() + "\">");
             getStream().write(fo.toString());
             getStream().write("</OBJ>\n");
         }
@@ -257,10 +241,8 @@ public class XmlWriter extends AbstractWriter implements
         getStream().write("<ATTS>\n");
         for (Enumeration iter = lesAtts.keys(); iter.hasMoreElements();) {
             FormalAttribute fa = (FormalAttribute) iter.nextElement();
-            getStream().write(
-                              "<ATT id=\""
-                                      + ((Integer) lesAtts.get(fa)).intValue()
-                                      + "\">");
+            getStream().write("<ATT id=\""
+                              + ((Integer) lesAtts.get(fa)).intValue() + "\">");
             getStream().write(fa.toString());
             getStream().write("</ATT>\n");
         }
@@ -281,28 +263,20 @@ public class XmlWriter extends AbstractWriter implements
             nextIdNode++;
             // Stockage Extension
             getStream().write("<EXT>\n");
-            for (Iterator it = nodeToWrite.getContent().getExtent().iterator(); it
-                    .hasNext();) {
-                getStream()
-                        .write(
-                               "<OBJ id=\""
-                                       + ((Integer) lesObjs
-                                               .get((FormalObject) it.next()))
-                                               .intValue() + "\">");
+            for (Iterator it = nodeToWrite.getContent().getExtent()
+                    .iterator(); it.hasNext();) {
+                getStream().write("<OBJ id=\"" + ((Integer) lesObjs
+                        .get((FormalObject) it.next())).intValue() + "\">");
                 getStream().write("</OBJ>\n");
             }
             getStream().write("</EXT>\n");
 
             // Stockage Intension
             getStream().write("<INT>\n");
-            for (Iterator it = nodeToWrite.getContent().getIntent().iterator(); it
-                    .hasNext();) {
-                getStream().write(
-                                  "<ATT id=\""
-                                          + ((Integer) lesAtts
-                                                  .get((FormalAttribute) it
-                                                          .next())).intValue()
-                                          + "\">");
+            for (Iterator it = nodeToWrite.getContent().getIntent()
+                    .iterator(); it.hasNext();) {
+                getStream().write("<ATT id=\"" + ((Integer) lesAtts
+                        .get((FormalAttribute) it.next())).intValue() + "\">");
                 getStream().write("</ATT>\n");
             }
             getStream().write("</INT>\n");
@@ -311,13 +285,9 @@ public class XmlWriter extends AbstractWriter implements
             getStream().write("<SUP_NOD>\n");
             for (Iterator it = nodeToWrite.getParents().iterator(); it
                     .hasNext();) {
-                getStream()
-                        .write(
-                               "<PARENT id=\""
-                                       + ((Integer) correspId
-                                               .get(((ConceptNode) it.next())
-                                                       .getId())).intValue()
-                                       + "\">");
+                getStream().write("<PARENT id=\"" + ((Integer) correspId
+                        .get(((ConceptNode) it.next()).getId())).intValue()
+                                  + "\">");
                 getStream().write("</PARENT>\n");
             }
             getStream().write("</SUP_NOD>\n");
@@ -330,13 +300,9 @@ public class XmlWriter extends AbstractWriter implements
                     getStream().write("<GEN>\n");
                     for (Iterator itG = ((Intent) it.next()).iterator(); itG
                             .hasNext();) {
-                        getStream()
-                                .write(
-                                       "<ATT id=\""
-                                               + ((Integer) lesAtts
-                                                       .get((FormalAttribute) itG
-                                                               .next()))
-                                                       .intValue() + "\">");
+                        getStream().write("<ATT id=\"" + ((Integer) lesAtts
+                                .get((FormalAttribute) itG.next())).intValue()
+                                          + "\">");
                         getStream().write("</ATT>\n");
                     }
                     getStream().write("</GEN>\n");
@@ -377,15 +343,15 @@ public class XmlWriter extends AbstractWriter implements
      * @param lattice
      *            le treillis a enregistrer
      */
-    public void writeRelationalContext(RelationalContextFamily relCtx)
-                                                                      throws IOException {
+    public void writeRelationalContext(RelationalContextFamily relCtx) throws IOException {
         getStream().write("<FAM name=\"" + relCtx.getName() + "\">\n");
         for (int i = 0; i < relCtx.size(); i++) {
             if (relCtx.get(i) instanceof ScalingBinaryRelation)
                 writeScalingBinaryRelation((ScalingBinaryRelation) relCtx
                         .get(i));
             else if (relCtx.get(i) instanceof MatrixBinaryRelationBuilder)
-                writeBinaryRelation((MatrixBinaryRelationBuilder) relCtx.get(i));
+                writeBinaryRelation((MatrixBinaryRelationBuilder) relCtx
+                        .get(i));
 
             getStream().flush();
 

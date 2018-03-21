@@ -51,7 +51,6 @@ import lattice.util.structure.CompleteConceptLattice;
 import lattice.util.structure.CompleteConceptLatticeImp;
 import lattice.util.structure.ConceptNode;
 import lattice.util.structure.ConceptNodeImp;
-import lattice.util.structure.LatticeGraph;
 import rule.util.Rule;
 
 /**
@@ -186,8 +185,8 @@ public class DatabaseManagement {
             stat.executeUpdate("DROP DATABASE IF EXISTS " + dbName);
 
         } catch (Exception e) {
-            System.err.println("The Database '" + dbName
-                               + "' cannot be dropped");
+            System.err
+                    .println("The Database '" + dbName + "' cannot be dropped");
         }
     }
 
@@ -202,8 +201,8 @@ public class DatabaseManagement {
             stat.executeUpdate("CREATE DATABASE IF NOT EXISTS " + dbName);
 
         } catch (Exception e) {
-            System.err.println("The Database '" + dbName
-                               + "' cannot be created");
+            System.err
+                    .println("The Database '" + dbName + "' cannot be created");
         }
     }
 
@@ -349,8 +348,8 @@ public class DatabaseManagement {
                                         + " VARCHAR(30) NOT NULL REFERENCES "
                                         + RCF_RELATIONS_PROPERTIES
                                         + " ON DELETE CASCADE, PRIMARY KEY ("
-                                        + RELATION_NAME + ", "
-                                        + PARENT_RELATION + "))";
+                                        + RELATION_NAME + ", " + PARENT_RELATION
+                                        + "))";
 
         try {
             stat = dbc.getConnection().createStatement();
@@ -396,11 +395,10 @@ public class DatabaseManagement {
                     String message = "Please choose the parent relation of '"
                                      + relName + "'";
 
-                    addToDependencesTable(relName,
-                                          DatabaseFunctions
-                                                  .showInputDialog(message,
-                                                                   getRelationsOfType(relCtxFam,
-                                                                                      DatabaseFunctions.MULTI_VALUED_TYPE)));
+                    addToDependencesTable(relName, DatabaseFunctions
+                            .showInputDialog(message,
+                                             getRelationsOfType(relCtxFam,
+                                                                DatabaseFunctions.MULTI_VALUED_TYPE)));
                     createBinaryTable(relName, (ScalingBinaryRelation) absRel);
                 } else if (absRel instanceof MatrixBinaryRelationBuilder) {
                     insert += "'" + DatabaseFunctions.BINARY_TYPE + "', '"
@@ -473,9 +471,9 @@ public class DatabaseManagement {
                         stat.executeUpdate(insertBinary
                                            + filterObjName(obj.get(i)
                                                    .toString())
-                                           + "', '"
-                                           + filterAttName(att.get(j)
-                                                   .toString()) + "')");
+                                           + "', '" + filterAttName(att.get(j)
+                                                   .toString())
+                                           + "')");
                     }
                 }
             }
@@ -535,9 +533,8 @@ public class DatabaseManagement {
             rs = stat.executeQuery(query);
             rs.next();
             result = rs.getString(1);
-            result = result.substring(0,
-                                      result.length()
-                                              - OBJ_TABLE_SUFFIX.length());
+            result = result
+                    .substring(0, result.length() - OBJ_TABLE_SUFFIX.length());
 
         } catch (Exception e) {
             System.err.println("Error getting the IOR Objects Context Name");
@@ -558,9 +555,8 @@ public class DatabaseManagement {
                                    + RELATION_NAME + " = '" + tableName + "'");
             rs.next();
             result = rs.getString(1);
-            result = result.substring(0,
-                                      result.length()
-                                              - OBJ_TABLE_SUFFIX.length());
+            result = result
+                    .substring(0, result.length() - OBJ_TABLE_SUFFIX.length());
 
         } catch (Exception e) {
             System.err.println("Error getting the IOR Attributes Context Name");
@@ -596,9 +592,9 @@ public class DatabaseManagement {
         Vector result = new Vector();
         try {
             stat = dbc.getConnection().createStatement();
-            rs = stat.executeQuery("SELECT " + ATT_COLUMN + " FROM "
-                                   + tableName + " WHERE " + OBJ_COLUMN
-                                   + " = '" + object + "'");
+            rs = stat.executeQuery("SELECT " + ATT_COLUMN + " FROM " + tableName
+                                   + " WHERE " + OBJ_COLUMN + " = '" + object
+                                   + "'");
             while (rs.next()) {
                 result.addElement(rs.getString(1));
             }
@@ -614,7 +610,8 @@ public class DatabaseManagement {
      * 
      * @return a <code>Vector</code> that contains the attributes of an object
      */
-    public Vector getInterObjectBinaryRelation(String tableName, String object) {
+    public Vector getInterObjectBinaryRelation(String tableName,
+                                               String object) {
         Vector result = new Vector();
         try {
             stat = dbc.getConnection().createStatement();
@@ -642,10 +639,10 @@ public class DatabaseManagement {
         Vector result = new Vector();
         try {
             stat = dbc.getConnection().createStatement();
-            rs = stat.executeQuery("SELECT " + VAL_COLUMN + " FROM "
-                                   + tableName + " WHERE " + OBJ_COLUMN
-                                   + " = '" + object + "' AND " + ATT_COLUMN
-                                   + " = '" + attribute + "'");
+            rs = stat.executeQuery("SELECT " + VAL_COLUMN + " FROM " + tableName
+                                   + " WHERE " + OBJ_COLUMN + " = '" + object
+                                   + "' AND " + ATT_COLUMN + " = '" + attribute
+                                   + "'");
             while (rs.next()) {
                 if (rs.getString(1) != null) {
                     result.addElement(rs.getString(1));
@@ -724,8 +721,8 @@ public class DatabaseManagement {
     public Vector getDerivedContexts(String relName) {
         Vector result = new Vector();
         String query = "SELECT " + RELATION_NAME + " FROM "
-                       + RCF_RELATIONS_DEPENDENCES + " WHERE "
-                       + PARENT_RELATION + " = '" + relName + "'";
+                       + RCF_RELATIONS_DEPENDENCES + " WHERE " + PARENT_RELATION
+                       + " = '" + relName + "'";
         try {
             stat = dbc.getConnection().createStatement();
             rs = stat.executeQuery(query);
@@ -883,14 +880,13 @@ public class DatabaseManagement {
                                     + filterAttName(((Object) consequenceIterator
                                             .next()).toString());
                 }
-                insertRule += "'"
-                              + consequences
-                              + "', "
+                insertRule += "'" + consequences + "', "
                               + Double.toString(((double) ((int) (currentRule
                                       .getSupport() * 100.0))) / 100.0)
                               + ", "
                               + Double.toString(((double) ((int) (currentRule
-                                      .getConfiance() * 100.0))) / 100.0) + ")";
+                                      .getConfiance() * 100.0))) / 100.0)
+                              + ")";
 
                 stat.executeUpdate(insertRule);
             }
@@ -923,8 +919,8 @@ public class DatabaseManagement {
                                + rulesBasisID);
 
         } catch (Exception e) {
-            System.err.println("Error deleting the rules basis '"
-                               + rulesBasisID + "'");
+            System.err.println("Error deleting the rules basis '" + rulesBasisID
+                               + "'");
         }
     }
 
@@ -964,9 +960,8 @@ public class DatabaseManagement {
             Vector rulesBasis = new Vector();
             while (rs.next()) {
                 rulesBasis.addElement("ID #" + rs.getString(1) + " ["
-                                      + rs.getString(2) + ", "
-                                      + rs.getString(3) + ", "
-                                      + rs.getString(4) + ", "
+                                      + rs.getString(2) + ", " + rs.getString(3)
+                                      + ", " + rs.getString(4) + ", "
                                       + rs.getString(5) + "]");
             }
             return rulesBasis;
@@ -993,8 +988,8 @@ public class DatabaseManagement {
             while (rs.next()) {
                 rulesBasis.addElement("ID #" + rs.getString(1) + " ["
                                       + rs.getString(2) + ", " + relName + ", "
-                                      + rs.getString(3) + ", "
-                                      + rs.getString(4) + "]");
+                                      + rs.getString(3) + ", " + rs.getString(4)
+                                      + "]");
             }
             return rulesBasis;
         } catch (Exception e) {
@@ -1019,12 +1014,10 @@ public class DatabaseManagement {
                 Intent premise = new BGIntent();
                 Intent consequence = new BGIntent();
 
-                StringTokenizer premiseTokenizer = new StringTokenizer(
-                                                                       rs.getString(1),
-                                                                       SEPARATOR);
-                StringTokenizer consequenceTokenizer = new StringTokenizer(
-                                                                           rs.getString(2),
-                                                                           SEPARATOR);
+                StringTokenizer premiseTokenizer = new StringTokenizer(rs
+                        .getString(1), SEPARATOR);
+                StringTokenizer consequenceTokenizer = new StringTokenizer(rs
+                        .getString(2), SEPARATOR);
 
                 while (premiseTokenizer.hasMoreTokens()) {
                     premise.add(new DefaultFormalAttribute(premiseTokenizer
@@ -1033,13 +1026,13 @@ public class DatabaseManagement {
 
                 while (consequenceTokenizer.hasMoreTokens()) {
                     consequence
-                            .add(new DefaultFormalAttribute(
-                                                            consequenceTokenizer
-                                                                    .nextToken()));
+                            .add(new DefaultFormalAttribute(consequenceTokenizer
+                                    .nextToken()));
                 }
 
-                result.add(new Rule(premise, consequence, Double.parseDouble(rs
-                        .getString(3)), Double.parseDouble(rs.getString(4))));
+                result.add(new Rule(premise, consequence,
+                                    Double.parseDouble(rs.getString(3)),
+                                    Double.parseDouble(rs.getString(4))));
             }
             return result;
 
@@ -1063,9 +1056,8 @@ public class DatabaseManagement {
                 return rs.getString(1);
             }
         } catch (Exception e) {
-            System.err
-                    .println("Error getting the dataset name of rules basis '"
-                             + rulesBasisID + "'");
+            System.err.println("Error getting the dataset name of rules basis '"
+                               + rulesBasisID + "'");
         }
         return null;
     }
@@ -1127,8 +1119,7 @@ public class DatabaseManagement {
         String dropLatticesProperties = "DROP TABLE IF EXISTS "
                                         + RCF_LATTICES_PROPERTIES;
         String createLatticesProperties = "CREATE TABLE "
-                                          + RCF_LATTICES_PROPERTIES
-                                          + " ("
+                                          + RCF_LATTICES_PROPERTIES + " ("
                                           + LATTICE_ID
                                           + " INT(5) PRIMARY KEY AUTO_INCREMENT, "
                                           + RELATION_NAME
@@ -1139,13 +1130,13 @@ public class DatabaseManagement {
                                           + LATTICE_DESCRIPTION
                                           + " VARCHAR(200), " + LATTICE_TYPE
                                           + " VARCHAR(30), " + MIN_SUPPORT
-                                          + " DECIMAL(3,2), "
-                                          + LATTICE_TOP_NODE + " INT(5), "
-                                          + LATTICE_BOTTOM_NODE + " INT(5))";
+                                          + " DECIMAL(3,2), " + LATTICE_TOP_NODE
+                                          + " INT(5), " + LATTICE_BOTTOM_NODE
+                                          + " INT(5))";
 
         String dropLatticesNodes = "DROP TABLE IF EXISTS " + RCF_LATTICES_NODES;
-        String createLatticesNodes = "CREATE TABLE " + RCF_LATTICES_NODES
-                                     + " (" + LATTICE_ID
+        String createLatticesNodes = "CREATE TABLE " + RCF_LATTICES_NODES + " ("
+                                     + LATTICE_ID
                                      + " INT(5) NOT NULL REFERENCES "
                                      + RCF_LATTICES_PROPERTIES
                                      + " ON DELETE CASCADE, " + LATTICE_NODE
@@ -1160,10 +1151,9 @@ public class DatabaseManagement {
                                        + RCF_LATTICES_PROPERTIES
                                        + " ON DELETE CASCADE, " + LATTICE_NODE
                                        + " INT(5) NOT NULL, " + PARENT_NODE
-                                       + " INT(5) NOT NULL, "
-                                       + " PRIMARY KEY (" + LATTICE_ID + ", "
-                                       + LATTICE_NODE + ", " + PARENT_NODE
-                                       + "))";
+                                       + " INT(5) NOT NULL, " + " PRIMARY KEY ("
+                                       + LATTICE_ID + ", " + LATTICE_NODE + ", "
+                                       + PARENT_NODE + "))";
 
         String dropLatticesExtents = "DROP TABLE IF EXISTS "
                                      + RCF_LATTICES_EXTENTS;
@@ -1190,8 +1180,8 @@ public class DatabaseManagement {
                                        + LATTICE_ATTRIBUTE
                                        + " VARCHAR(30) NOT NULL, "
                                        + "PRIMARY KEY (" + LATTICE_ID + ", "
-                                       + LATTICE_NODE + ", "
-                                       + LATTICE_ATTRIBUTE + "))";
+                                       + LATTICE_NODE + ", " + LATTICE_ATTRIBUTE
+                                       + "))";
 
         String dropLatticesGenerators = "DROP TABLE IF EXISTS "
                                         + RCF_LATTICES_GENERATORS;
@@ -1251,17 +1241,15 @@ public class DatabaseManagement {
             String bottomNode = "" + (lattice.size() - 1);
 
             String type = "Undefined";
-            if (lattice instanceof LatticeGraph) {
-                type = "LatticeGraph";
-            } else if (lattice instanceof CompleteConceptLatticeImp) {
+            if (lattice instanceof CompleteConceptLatticeImp) {
                 type = "ConceptLattice";
             }
 
             String insertProperties = "INSERT INTO " + RCF_LATTICES_PROPERTIES
                                       + " (" + RELATION_NAME + ", "
                                       + LATTICE_DESCRIPTION + ", "
-                                      + LATTICE_TYPE + ", " + MIN_SUPPORT
-                                      + ", " + LATTICE_TOP_NODE + ", "
+                                      + LATTICE_TYPE + ", " + MIN_SUPPORT + ", "
+                                      + LATTICE_TOP_NODE + ", "
                                       + LATTICE_BOTTOM_NODE + ") VALUES ('"
                                       + relName + "', '" + description + "', '"
                                       + type + "', " + minSupport + ", "
@@ -1303,8 +1291,8 @@ public class DatabaseManagement {
                         .iterator(); it.hasNext();) {
                     String object = filterObjName(((FormalObject) it.next())
                             .toString());
-                    stat.executeUpdate(insertExtentGeneric + latticeNode
-                                       + ", '" + object + "')");
+                    stat.executeUpdate(insertExtentGeneric + latticeNode + ", '"
+                                       + object + "')");
                 }
 
                 // Intent
@@ -1312,8 +1300,8 @@ public class DatabaseManagement {
                         .iterator(); it.hasNext();) {
                     String attribute = filterAttName(((FormalAttribute) it
                             .next()).toString());
-                    stat.executeUpdate(insertIntentGeneric + latticeNode
-                                       + ", '" + attribute + "')");
+                    stat.executeUpdate(insertIntentGeneric + latticeNode + ", '"
+                                       + attribute + "')");
                 }
 
                 // Parents
@@ -1358,7 +1346,8 @@ public class DatabaseManagement {
             String latticeNode = "" + (nextIdNode - 1);
             stat.executeUpdate("UPDATE " + RCF_LATTICES_PROPERTIES + " SET "
                                + LATTICE_BOTTOM_NODE + " = " + latticeNode
-                               + " WHERE " + LATTICE_ID + " = LAST_INSERT_ID()");
+                               + " WHERE " + LATTICE_ID
+                               + " = LAST_INSERT_ID()");
         } catch (Exception e) {
             System.err.println("Error adding a lattice to the database");
             e.printStackTrace();
@@ -1381,16 +1370,16 @@ public class DatabaseManagement {
 
         try {
             stat = dbc.getConnection().createStatement();
-            stat.executeUpdate("DELETE FROM " + RCF_LATTICES_EXTENTS
-                               + " WHERE " + LATTICE_ID + " = " + latticeID);
-            stat.executeUpdate("DELETE FROM " + RCF_LATTICES_INTENTS
-                               + " WHERE " + LATTICE_ID + " = " + latticeID);
+            stat.executeUpdate("DELETE FROM " + RCF_LATTICES_EXTENTS + " WHERE "
+                               + LATTICE_ID + " = " + latticeID);
+            stat.executeUpdate("DELETE FROM " + RCF_LATTICES_INTENTS + " WHERE "
+                               + LATTICE_ID + " = " + latticeID);
             stat.executeUpdate("DELETE FROM " + RCF_LATTICES_GENERATORS
                                + " WHERE " + LATTICE_ID + " = " + latticeID);
             stat.executeUpdate("DELETE FROM " + RCF_LATTICES_NODES + " WHERE "
                                + LATTICE_ID + " = " + latticeID);
-            stat.executeUpdate("DELETE FROM " + RCF_LATTICES_PARENTS
-                               + " WHERE " + LATTICE_ID + " = " + latticeID);
+            stat.executeUpdate("DELETE FROM " + RCF_LATTICES_PARENTS + " WHERE "
+                               + LATTICE_ID + " = " + latticeID);
             stat.executeUpdate("DELETE FROM " + RCF_LATTICES_PROPERTIES
                                + " WHERE " + LATTICE_ID + " = " + latticeID);
 
@@ -1462,8 +1451,8 @@ public class DatabaseManagement {
         try {
             stat = dbc.getConnection().createStatement();
             rs = stat.executeQuery("SELECT " + LATTICE_NODE + " FROM "
-                                   + RCF_LATTICES_NODES + " WHERE "
-                                   + LATTICE_ID + " = " + latticeID);
+                                   + RCF_LATTICES_NODES + " WHERE " + LATTICE_ID
+                                   + " = " + latticeID);
             Vector nodes = new Vector();
             while (rs.next()) {
                 nodes.add(rs.getString(1));
@@ -1537,7 +1526,8 @@ public class DatabaseManagement {
         return null;
     }
 
-    protected Vector getLatticeNodeGenerators(String latticeID, String nodeName) {
+    protected Vector getLatticeNodeGenerators(String latticeID,
+                                              String nodeName) {
         try {
             stat = dbc.getConnection().createStatement();
             rs = stat.executeQuery("SELECT " + LATTICE_GENERATOR + ", "
@@ -1619,8 +1609,6 @@ public class DatabaseManagement {
             return null;
         } else if (type.equals("ConceptLattice")) {
             lattice = new CompleteConceptLatticeImp();
-        } else if (type.equals("LatticeGraph")) {
-            lattice = new LatticeGraph();
         } else {
             return null;
         }
@@ -1662,9 +1650,6 @@ public class DatabaseManagement {
                             .get(Integer.parseInt((String) parentNodes.get(j)));
                     newNode.addParent(supNode);
                     supNode.addChild(newNode);
-                }
-                if (lattice instanceof LatticeGraph) {
-                    ((LatticeGraph) lattice).add(newNode);
                 }
                 if (lattice instanceof CompleteConceptLatticeImp) {
                     ((CompleteConceptLatticeImp) lattice).incNbOfNodes();

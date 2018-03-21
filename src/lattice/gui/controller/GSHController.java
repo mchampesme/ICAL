@@ -32,12 +32,10 @@ import javax.swing.JMenuItem;
 
 import lattice.algorithm.LatticeAlgorithm;
 import lattice.algorithm.task.LatticeAlgorithmTask;
-import lattice.gsh.algorithm.CERES;
 import lattice.gui.RelationalContextEditor;
 import lattice.util.relation.RelationBuilder;
 import lattice.util.relation.MatrixBinaryRelationBuilder;
 import lattice.util.relation.ScalingBinaryRelation;
-import lattice.util.structure.LatticeGraph;
 
 /**
  * @author roume To change the template for this generated type comment go to
@@ -67,8 +65,8 @@ public class GSHController extends AbstractController {
     private LatticeAlgorithmTask theTask = null;
 
     /**
-	 * 
-	 */
+     * 
+     */
     public GSHController(RelationalContextEditor rce) {
         super(rce);
         initMenu();
@@ -132,11 +130,6 @@ public class GSHController extends AbstractController {
      * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     public void actionPerformed(ActionEvent arg0) {
-        if (arg0.getSource() == algoCeres) {
-            execAlgorithm(new CERES(
-                                    (MatrixBinaryRelationBuilder) rce
-                                            .getSelectedRelation()));
-        }
         if (arg0.getSource() == algoAresCons) {
             rce.addMessage("This Algorithm AresConstruction is not yet imlemented!\n");
         }
@@ -178,14 +171,10 @@ public class GSHController extends AbstractController {
                 menuShg.setEnabled(false);
             else {
                 menuShg.setEnabled(true);
-                if (absRel.getLattice() != null
-                    && absRel.getLattice() instanceof LatticeGraph) {
-                    algoAres.setEnabled(true);
-                    algoAresDual.setEnabled(true);
-                } else {
-                    algoAres.setEnabled(false);
-                    algoAresDual.setEnabled(false);
-                }
+
+                algoAres.setEnabled(false);
+                algoAresDual.setEnabled(false);
+
             }
         }
 
